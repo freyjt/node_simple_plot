@@ -4,20 +4,33 @@ exports = {
 
 function SimplePlot(   ) {
 	
-	
+	//environment vars
 	//placeholders
 	this.height = '100px';
 	this.width  = '100px';
 	this.border = "2px solid black";
-	
+	this.minX   = '0px';
+    this.minY   = '0px';
+    this.maxX   = '0px';
+    this.maxY   = '0px';
+
+    
+    this.path   = "";
+    this.scale  = 1;
+    this.ticks  = 10;
+    this.xlabel = "x";
+    this.ylabel = "y";
+    this.series = []; //plotable series
+
 }
-SimplePlot.prototype.savePlot( filePath ) {
+SimplePlot.prototype.savePlot   = function( filePath ) {
+
 	var fs = require('fs');
 	var path;
 	if( typeof(filePath) != 'undefined' ) {
-		path = filePath;
+		this.path = filePath;
 	} else {
-		path = genRand + ".html";
+		this.path = genRand + ".html";
 	}
 	pltStr = this.createHtml();
 	
@@ -28,16 +41,20 @@ SimplePlot.prototype.savePlot( filePath ) {
 		var pathLen = 10;
 		var ret     = "";
 		for(var z = 0; z < pathLen; z++) {
-			ret += alph[ Math.floor(Math.random() * len) ];
+			ret += alph[ Math.floor( Math.random() * len ) ];
 		}
 		return ret;
 	}
 }
-SimplePlot.prototype.showPlot( ) {
+SimplePlot.prototype.showPlot   = function( ) {
 	
 	
 }
-SimplePlot.prototype.createHtml() {
+SimplePlot.prototype.createHtml = function() {
+
+
+
+
 	var testString = "";
 	testString += "<html><body>";
 		/////////
@@ -49,4 +66,62 @@ SimplePlot.prototype.createHtml() {
 		testString += "</div>";
 	testString += "</body></html>";
 	return testString;
-}	
+}
+
+
+
+SimplePlot.prototype.addSeries = function(Xin, Yin) {
+    if(Xin.length != Yin.length) {
+        console.log("Error in SimplePlot.addSeries, X and Y" + 
+            " must be the same length.");
+    } else {
+        var newSeries = [];
+        var i;
+        for(i = 0; i < Xin.length; i++) {
+            if(typeof(Xin[i]) == 'number' && typeof(Yin[i]) == 'number')
+                newSeries.push([ Xin[i], Yin[i] ]);
+            else
+                console.log("Error in SimplePlot.addSeries, data point " +
+                    Xin[i] + " : " + Yin[i] + " could not be added because it" + 
+                    " is has one or more non-numeric element.");
+        }
+        this.series.push(newSeries);
+    }
+}
+SimplePlot.prototype.xLabel    = function(newLabel) {
+    this.xlabel = newLabel;
+}
+SimplePlot.prototype.yLabel    = function(newLabel) {
+    this.ylabel = newLabel;
+}
+
+
+SimplePlot.prototype.setVars  = function( ) {
+    var minX, minY, maxX, maxY = 0; //ok to use 0 here because
+                                    // we want the axis to be at 0
+                                    // if we don't have data less than
+    var j, k;
+
+    for(j = 0; j < this.series.length; j++) {
+        for(k = 0; k < this.series[j].length; j++) {
+            if( this.series[j][0] < minX ) minX = this.series[j][0];
+            if( this.series[j][0] > maxX ) maxX = this.series[j][0];
+            if( this.series[j][1] < minY ) minY = this.series[j][1];
+            if( this.series[j][1] > maxY ) maxY = this.series[j][1];
+        }
+    }
+    var xRange = maxX - minX;
+    var yRange = maxY - minY;
+
+    //provide a small buffer for < 0 values
+    //   @@@@@@TODO this may not be ideal if
+    //     we want to give the user range control
+    //     adjust accordingly
+    //     also this assumes a non-square scale, which, you know...maybe fine
+    if( minX < 0 ) this.minX = minX - .05 * xRange;
+    else           this.minX = 0;
+    if( minY < 0 ) this.minY = minY - .05 * yRange;
+    else           this.minY = 0;
+    this.maxX = maxX + .05 * xRange;
+    this.maxY = maxY + .05 * yRange;
+}
