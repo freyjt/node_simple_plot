@@ -25,6 +25,7 @@ function SimplePlot(   ) {
 
 }
 SimplePlot.prototype.savePlot   = function( filePath ) {
+    var tempPath = this.path;
 
 	var fs = require('fs');
 	if( typeof(filePath) != 'undefined' ) {
@@ -36,6 +37,8 @@ SimplePlot.prototype.savePlot   = function( filePath ) {
 	
     fs.writeFileSync(this.path, pltStr);
 	
+
+    this.path = tempPath;
 	function genRand( ) {
 		var alph    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 		var len     = alph.length;
@@ -47,10 +50,16 @@ SimplePlot.prototype.savePlot   = function( filePath ) {
 		return ret;
 	}
 }
+
 SimplePlot.prototype.showPlot   = function( ) {
 	
-	
+	this.savePlot( 'temp.html' );
+
+    var child = require('child_process').spawn;
+    child('open', ['temp.html']);
+
 }
+
 SimplePlot.prototype.createHtml = function() {
 
 
