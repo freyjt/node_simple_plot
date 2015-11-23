@@ -21,6 +21,8 @@ function SimplePlot(   ) {
     this.ticks  = 10;
     this.xlabel = "x";
     this.ylabel = "y";
+    this.origin = [0, 0];
+
     this.series = []; //plotable series
 
 }
@@ -79,7 +81,7 @@ SimplePlot.prototype.createHtml = function() {
 
 
 
-SimplePlot.prototype.addSeries = function(Xin, Yin) {
+SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
     if(Xin.length != Yin.length) {
         console.log("Error in SimplePlot.addSeries, X and Y" + 
             " must be the same length.");
@@ -134,7 +136,16 @@ SimplePlot.prototype.setVars  = function( ) {
     this.maxX = maxX + .05 * xRange;
     this.maxY = maxY + .05 * yRange;
 
+    var fullXRange = this.maxX - this.minX;
+    var fullYRange = this.maxY = this.minY;
 
-    this.scaleX = xRange / this.ticks;
-    this.scaleY = yRange / this.ticks;
+    var totalW = parseInt( this.width );
+    var totalH = parseInt( this.height);
+    this.origin[0] = totalW * ( Math.abs(minX) / fullXRange);
+    //minY remember to use position: bottom instead of top
+    this.origin[1] = totalH * ( Math.abs(minY) / fullYRange);
+
+    //@TODO this doesn't have to be so generic, but low priority
+    this.scaleX = Math.round10(xRange / this.ticks, -2);
+    this.scaleY = Math.round10(yRange / this.ticks, -2);
 }
