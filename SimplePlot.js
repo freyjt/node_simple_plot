@@ -16,7 +16,8 @@ function SimplePlot(   ) {
 
     
     this.path   = "";
-    this.scale  = 1;
+    this.scaleX = 2;
+    this.scaleY = 2;
     this.ticks  = 10;
     this.xlabel = "x";
     this.ylabel = "y";
@@ -124,4 +125,8 @@ SimplePlot.prototype.setVars  = function( ) {
     else           this.minY = 0;
     this.maxX = maxX + .05 * xRange;
     this.maxY = maxY + .05 * yRange;
+
+    
+    this.scaleX = xRange / this.ticks;
+    this.scaleY = yRange / this.ticks;
 }
