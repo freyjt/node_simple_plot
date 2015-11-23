@@ -67,14 +67,25 @@ SimplePlot.prototype.createHtml = function() {
 
 
 	var testString = "";
+    //open body
 	testString += "<html><body>";
 		/////////
 		/////////Here is where things go
 		testString += "<div class=\"graph\" style=\"height:"
 			+ this.height + "; width: " + this.width  + "; border: "
-			+ this.border + "\">";
+			+ this.border + "; position: absolute; left: 30px; top: 30px\">";
+            //write xlabel
+            testString += "<div class=\"xLabel\" style=\"position: absolute;"
+                + " bottom: -22px; left: 10px\">" + this.xlabel + "</div>"
+            //write ylabel
+            testString += "<div class=\"xLabel\" style=\"position: absolute;"
+                + " bottom: 10px; left: -22px; transform: rotate(-90deg)\">"
+                + this.ylabel + "</div>"
+
+
 
 		testString += "</div>";
+    //close body
 	testString += "</body></html>";
 	return testString;
 }
@@ -137,8 +148,10 @@ SimplePlot.prototype.setVars  = function( ) {
     this.maxY = maxY + .05 * yRange;
 
     var fullXRange = this.maxX - this.minX;
-    var fullYRange = this.maxY = this.minY;
+    var fullYRange = this.maxY - this.minY;
 
+
+    //Leave this in number form to speed calcuations later
     var totalW = parseInt( this.width );
     var totalH = parseInt( this.height);
     this.origin[0] = totalW * ( Math.abs(minX) / fullXRange);
