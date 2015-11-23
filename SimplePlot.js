@@ -54,9 +54,8 @@ SimplePlot.prototype.savePlot   = function( filePath ) {
 SimplePlot.prototype.showPlot   = function( ) {
 	
 	this.savePlot( 'temp.html' );
-
-    var child = require('child_process').spawn;
-    child('open', ['temp.html']);
+    var open = require('open');
+    open('temp.html');
 
 }
 
