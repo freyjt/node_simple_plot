@@ -63,7 +63,7 @@ SimplePlot.prototype.showPlot   = function( ) {
 
 SimplePlot.prototype.createHtml = function() {
 
-
+    this.setVars();
 
 
 	var testString = "";
@@ -81,7 +81,9 @@ SimplePlot.prototype.createHtml = function() {
             testString += "<div class=\"xLabel\" style=\"position: absolute;"
                 + " bottom: 10px; left: -22px; transform: rotate(-90deg)\">"
                 + this.ylabel + "</div>"
-
+            //HACKEY, YOU'RE AWESOME
+            //add axis's
+            testString
 
 
 		testString += "</div>";
@@ -159,6 +161,12 @@ SimplePlot.prototype.setVars  = function( ) {
     this.origin[1] = totalH * ( Math.abs(minY) / fullYRange);
 
     //@TODO this doesn't have to be so generic, but low priority
-    this.scaleX = Math.round10(xRange / this.ticks, -2);
-    this.scaleY = Math.round10(yRange / this.ticks, -2);
+    this.scaleX = round10(xRange / this.ticks, 2);
+    this.scaleY = round10(yRange / this.ticks, 2);
+
+    //http://www.jacklmoore.com/notes/rounding-in-javascript/
+    function round10(value, decimals) {
+        return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    }
+
 }
