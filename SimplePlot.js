@@ -1,4 +1,4 @@
-exports = {
+module.exports = {
 	SimplePlot: SimplePlot
 }
 
@@ -27,14 +27,14 @@ function SimplePlot(   ) {
 SimplePlot.prototype.savePlot   = function( filePath ) {
 
 	var fs = require('fs');
-	var path;
 	if( typeof(filePath) != 'undefined' ) {
 		this.path = filePath;
 	} else {
-		this.path = genRand + ".html";
+		this.path = genRand() + ".html";
 	}
 	pltStr = this.createHtml();
 	
+    fs.writeFileSync(this.path, pltStr);
 	
 	function genRand( ) {
 		var alph    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -126,7 +126,7 @@ SimplePlot.prototype.setVars  = function( ) {
     this.maxX = maxX + .05 * xRange;
     this.maxY = maxY + .05 * yRange;
 
-    
+
     this.scaleX = xRange / this.ticks;
     this.scaleY = yRange / this.ticks;
 }

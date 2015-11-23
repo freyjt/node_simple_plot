@@ -1,6 +1,10 @@
 
 
 function main( ) {
-    var plot = require('./SimplePlot.js');
+    var sPlot = require('./SimplePlot.js');
+    var plot  = new sPlot.SimplePlot();
+
+    plot.savePlot();
+
 }
 main();
