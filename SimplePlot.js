@@ -5,7 +5,10 @@ exports = {
 function SimplePlot(   ) {
 	
 	
-	
+	//placeholders
+	this.height = '100px';
+	this.width  = '100px';
+	this.border = "2px solid black";
 	
 }
 SimplePlot.prototype.savePlot( filePath ) {
@@ -16,7 +19,7 @@ SimplePlot.prototype.savePlot( filePath ) {
 	} else {
 		path = genRand + ".html";
 	}
-	pltStr = 
+	pltStr = this.createHtml();
 	
 	
 	function genRand( ) {
@@ -34,3 +37,16 @@ SimplePlot.prototype.showPlot( ) {
 	
 	
 }
+SimplePlot.prototype.createHtml() {
+	var testString = "";
+	testString += "<html><body>";
+		/////////
+		/////////Here is where things go
+		testString += "<div class=\"graph\" style=\"height:"
+			+ this.height + "; width: " + this.width  + "; border: "
+			+ this.border + "\">";
+
+		testString += "</div>";
+	testString += "</body></html>";
+	return testString;
+}	
