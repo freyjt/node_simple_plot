@@ -6,8 +6,8 @@ function SimplePlot(   ) {
 	
 	//environment vars
 	//placeholders
-	this.height = '100px';
-	this.width  = '100px';
+	this.height = '267px';
+	this.width  = '500px';
 	this.border = "2px solid black";
 	this.minX   = '0px';
     this.minY   = '0px';
@@ -19,6 +19,7 @@ function SimplePlot(   ) {
     this.scaleX = 2;
     this.scaleY = 2;
     this.ticks  = 10;
+    this.pipSize= 10;
     this.xlabel = "x";
     this.ylabel = "y";
     this.origin = [0, 0];
@@ -65,6 +66,10 @@ SimplePlot.prototype.createHtml = function() {
 
     this.setVars();
 
+    var i, j, X, Y, xTrans, yTrans;
+
+    var xRange = this.maxX - this.minX;
+    var yRange = this.maxY - this.minY;
 
 	var testString = "";
     //open body
@@ -83,10 +88,29 @@ SimplePlot.prototype.createHtml = function() {
                 + this.ylabel + "</div>"
             //HACKEY, YOU'RE AWESOME
             //add axis's
-            testString += "<div class=\"axis\" style=\"position:absolute;"
+            testString += "<div class=\"Xaxis\" style=\"position:absolute;"
                 + " bottom: " + this.origin[1] + "px; left: 0px; border: 1px solid black;"
-                + "\"></div>";
+                + " height: 0px; width:" + this.width + "\"></div>";
+            testString += "<div class=\"Xaxis\" style=\"position:absolute;"
+                + " left: " + this.origin[0] + "px; bottom: 0px; border: 1px solid black;"
+                + " width: 0px; height:" + this.height + "\"></div>";
+            for(i = 0; i < this.series.length; i++) {
+                for(j = 1; j < this.series[i].length; j++) {
+                    X = this.series[i][j][0];
+                    Y = this.series[i][j][1];
 
+                    //transform x and y
+                    xTrans = this.origin[0] + ( parseInt(this.width)  * ( X / xRange ) ) - (this.pipSize / 2);
+                    yTrans = this.origin[1] + ( parseInt(this.height) * ( Y / yRange ) ) - (this.pipSize / 2);
+                    if(xTrans > this.width || xTrans < 0 || yTrans > this.height || yTrans < 0) {
+                        console.log("Error in createHtml, pip rendered out of bounds");
+                    }
+
+                    testString += "<img src=\"" + this.series[i][0] + "\" height:\"" + this.pipSize 
+                        + "px\" width:\"" + this.pipSize + "px\" style=\"position: absolute;"
+                        + " left: " + xTrans + "; bottom: " + yTrans + ";\"></img>";
+                }
+            }
 
 		testString += "</div>";
     //close body
@@ -103,6 +127,30 @@ SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
     } else {
         var newSeries = [];
         var i;
+
+        if(typeof(color) !== 'undefined') {4
+            switch(color) {
+                case 'blue':
+                    newSeries.push('images/blue.png');    break;
+                case 'black':
+                    newSeries.push('images/black.png');   break;
+                case 'green':
+                    newSeries.push('images/green.png');   break;
+                case 'pink':
+                    newSeries.push('images/pink.png');    break;
+                case 'purple':
+                    newSeries.push('images/purple.png');  break;
+                case 'red':
+                    newSeries.push('images/red.png');     break;
+                case 'yellow':
+                    newSeries.push('images/red.png');     break;
+                default:
+                    newSeries.push( color ); //for user defined image paths
+            }
+        } else {
+            newSeries.push('images/red.png');
+        }
+
         for(i = 0; i < Xin.length; i++) {
             if(typeof(Xin[i]) == 'number' && typeof(Yin[i]) == 'number')
                 newSeries.push([ Xin[i], Yin[i] ]);
@@ -123,18 +171,17 @@ SimplePlot.prototype.yLabel    = function(newLabel) {
 
 
 SimplePlot.prototype.setVars  = function( ) {
-    var minX = 0;
-    var minY = 0;
-    var maxX = 0;
-    var maxY = 0; //ok to use 0 here because
-                                    // we want the axis to be at 0
-                                    // if we don't have data less than
+    var minX = 0; //ok to use 0 here because
+    var minY = 0; // we want the axis to be at 0
+    var maxX = 0; // if we don't have data less than
+    var maxY = 0;                             
     var j, k;
-   // console.log(maxX);
+
     for(j = 0; j < this.series.length; j++) {
-        
-        for(k = 0; k < this.series[j].length; k++) {
-            console.log(this.series[j][k][0]);
+        //from one to skip color in object...should be done with an object
+        //  anyway, but you'll have to change this a lot when you fix it
+        for(k = 1; k < this.series[j].length; k++) {
+
             if( this.series[j][k][0] < minX ) minX = this.series[j][k][0];
             if( this.series[j][k][0] > maxX ) maxX = this.series[j][k][0];
             if( this.series[j][k][1] < minY ) minY = this.series[j][k][1];
@@ -156,21 +203,20 @@ SimplePlot.prototype.setVars  = function( ) {
     this.maxX = maxX + .05 * xRange;
     this.maxY = maxY + .05 * yRange;
 
-console.log(xRange);
 
     var fullXRange = this.maxX - this.minX;
     var fullYRange = this.maxY - this.minY;
 
-console.log(fullXRange); console.log(fullYRange);
+
 
     //Leave this in number form to speed calcuations later
     var totalW = parseInt( this.width );
     var totalH = parseInt( this.height);
 
-    this.origin[0] = totalW * ( Math.abs(minX) / fullXRange);
+    this.origin[0] = totalW * ( Math.abs(this.minX) / fullXRange) - 1;
     //minY remember to use position: bottom instead of top
-    this.origin[1] = totalH * ( Math.abs(minY) / fullYRange);
-    console.log(this.origin);
+    this.origin[1] = totalH * ( Math.abs(this.minY) / fullYRange) - 1;
+
     //@TODO this doesn't have to be so generic, but low priority
     this.scaleX = round10(xRange / this.ticks, 2);
     this.scaleY = round10(yRange / this.ticks, 2);
