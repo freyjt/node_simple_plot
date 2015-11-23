@@ -83,7 +83,9 @@ SimplePlot.prototype.createHtml = function() {
                 + this.ylabel + "</div>"
             //HACKEY, YOU'RE AWESOME
             //add axis's
-            testString
+            testString += "<div class=\"axis\" style=\"position:absolute;"
+                + " bottom: " this.origin[1] + "px; left: 0px; border: 1px solid black;"
+                + "\"></div>";
 
 
 		testString += "</div>";
