@@ -5,6 +5,6 @@ function main( ) {
     var plot  = new sPlot.SimplePlot();
 
     plot.savePlot();
-
+    plot.savePlot('myfile.html');
 }
 main();
