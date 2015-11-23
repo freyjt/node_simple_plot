@@ -84,7 +84,7 @@ SimplePlot.prototype.createHtml = function() {
             //HACKEY, YOU'RE AWESOME
             //add axis's
             testString += "<div class=\"axis\" style=\"position:absolute;"
-                + " bottom: " this.origin[1] + "px; left: 0px; border: 1px solid black;"
+                + " bottom: " + this.origin[1] + "px; left: 0px; border: 1px solid black;"
                 + "\"></div>";
 
 
@@ -123,17 +123,22 @@ SimplePlot.prototype.yLabel    = function(newLabel) {
 
 
 SimplePlot.prototype.setVars  = function( ) {
-    var minX, minY, maxX, maxY = 0; //ok to use 0 here because
+    var minX = 0;
+    var minY = 0;
+    var maxX = 0;
+    var maxY = 0; //ok to use 0 here because
                                     // we want the axis to be at 0
                                     // if we don't have data less than
     var j, k;
-
+   // console.log(maxX);
     for(j = 0; j < this.series.length; j++) {
-        for(k = 0; k < this.series[j].length; j++) {
-            if( this.series[j][0] < minX ) minX = this.series[j][0];
-            if( this.series[j][0] > maxX ) maxX = this.series[j][0];
-            if( this.series[j][1] < minY ) minY = this.series[j][1];
-            if( this.series[j][1] > maxY ) maxY = this.series[j][1];
+        
+        for(k = 0; k < this.series[j].length; k++) {
+            console.log(this.series[j][k][0]);
+            if( this.series[j][k][0] < minX ) minX = this.series[j][k][0];
+            if( this.series[j][k][0] > maxX ) maxX = this.series[j][k][0];
+            if( this.series[j][k][1] < minY ) minY = this.series[j][k][1];
+            if( this.series[j][k][1] > maxY ) maxY = this.series[j][k][1];
         }
     }
     var xRange = maxX - minX;
@@ -151,17 +156,21 @@ SimplePlot.prototype.setVars  = function( ) {
     this.maxX = maxX + .05 * xRange;
     this.maxY = maxY + .05 * yRange;
 
+console.log(xRange);
+
     var fullXRange = this.maxX - this.minX;
     var fullYRange = this.maxY - this.minY;
 
+console.log(fullXRange); console.log(fullYRange);
 
     //Leave this in number form to speed calcuations later
     var totalW = parseInt( this.width );
     var totalH = parseInt( this.height);
+
     this.origin[0] = totalW * ( Math.abs(minX) / fullXRange);
     //minY remember to use position: bottom instead of top
     this.origin[1] = totalH * ( Math.abs(minY) / fullYRange);
-
+    console.log(this.origin);
     //@TODO this doesn't have to be so generic, but low priority
     this.scaleX = round10(xRange / this.ticks, 2);
     this.scaleY = round10(yRange / this.ticks, 2);
