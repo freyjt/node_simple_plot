@@ -145,9 +145,8 @@ SimplePlot.prototype.createHtml = function() {
                         console.log("Error in createHtml, pip rendered out of bounds");
                     }
 
-                    testString += "<img src=\"" + this.series[i][0] + "\" height:\"" + this.pipSize 
-                        + "px\" width:\"" + this.pipSize + "px\" style=\"position: absolute;"
-                        + " left: " + xTrans + "; bottom: " + yTrans + ";\"></img>";
+                    testString += "<img src=\"" + this.series[i][0] + "\" style=\"position: absolute;"
+                        + " left: " + xTrans + "; bottom: " + yTrans + "; height:" + this.pipSize + ";width: " + this.pipSize +  "\"></img>";
                 }
             }
 
