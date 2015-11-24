@@ -6,7 +6,7 @@ function SimplePlot(   ) {
 	
 	//environment vars
 	//placeholders
-	this.height = '267px';
+	this.height = '467px';
 	this.width  = '500px';
 	this.border = "2px solid black";
 	this.minX   = '0px';
@@ -78,13 +78,13 @@ SimplePlot.prototype.createHtml = function() {
 		/////////Here is where things go
 		testString += "<div class=\"graph\" style=\"height:"
 			+ this.height + "; width: " + this.width  + "; border: "
-			+ this.border + "; position: absolute; left: 30px; top: 30px\">";
+			+ this.border + "; position: absolute; left: 70px; top: 70px\">";
             //write xlabel
             testString += "<div class=\"xLabel\" style=\"position: absolute;"
-                + " bottom: -22px; left: 10px\">" + this.xlabel + "</div>"
+                + " bottom: -42px; left: 10px\">" + this.xlabel + "</div>"
             //write ylabel
             testString += "<div class=\"xLabel\" style=\"position: absolute;"
-                + " bottom: 10px; left: -22px; transform: rotate(-90deg)\">"
+                + " bottom: 10px; left: -62px; transform: rotate(-90deg)\">"
                 + this.ylabel + "</div>"
             //HACKEY, YOU'RE AWESOME
             //add axis's
@@ -96,6 +96,7 @@ SimplePlot.prototype.createHtml = function() {
                 + " width: 0px; height:" + this.height + "\"></div>";
 
             //add tickmarks
+            var scaledTick   = xRange / parseInt(this.width);
             var betweenTicks = parseInt(this.width) / this.ticks;
             var marker       = this.origin[0] + betweenTicks;
             while(marker > 0) {
@@ -104,11 +105,15 @@ SimplePlot.prototype.createHtml = function() {
                     marker       = this.origin[0] + betweenTicks;
                 }
                 testString += "<div class=\"tick\" style=\"position: absolute;" 
-                    + " bottom: 0px; left: " + (marker) + "; height: 10px; width: 1px; " 
+                    + " bottom: 0px; left: " + (marker) + "px; height: 10px; width: 1px; " 
                     + "background-color: black\"></div>";
+                testString += "<div class=\"tick-label\" style=\"position: absolute;"
+                    + " bottom: -24px; left: " + (marker - 10) + "px;\">" + ( round10(scaledTick *(marker-this.origin[0]), 2) ).toString()
+                    + "</div>";
                 marker += betweenTicks;
           
             }
+            scaledTick   = yRange / parseInt(this.height);
             betweenTicks = parseInt(this.height) / this.ticks;
             marker       = this.origin[1] + betweenTicks;
             while(marker > 0) {
@@ -117,8 +122,11 @@ SimplePlot.prototype.createHtml = function() {
                     marker       = this.origin[1] + betweenTicks;
                 }
                 testString += "<div class=\"tick\" style=\"position: absolute;" 
-                    + " bottom: " + (marker) + "; left: 0px; height: 1px; width: 10px; " 
+                    + " bottom: " + (marker) + "px; left: 0px; height: 1px; width: 10px; " 
                     + "background-color: black\"></div>";
+                testString += "<div class=\"tick-label\" style=\"position: absolute;"
+                    + " bottom: "  + (marker - 6) + "px; left: -40px;\">" + (round10(scaledTick * ( marker - this.origin[1] ), 2) ).toString()
+                    + "</div>";
                 marker += betweenTicks;
             }
 
@@ -146,6 +154,11 @@ SimplePlot.prototype.createHtml = function() {
     //close body
 	testString += "</body></html>";
 	return testString;
+
+    //http://www.jacklmoore.com/notes/rounding-in-javascript/
+    function round10(value, decimals) {
+        return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    }
 }
 
 
@@ -191,6 +204,7 @@ SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
         }
         this.series.push(newSeries);
     }
+
 }
 SimplePlot.prototype.xLabel    = function(newLabel) {
     this.xlabel = newLabel;
