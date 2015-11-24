@@ -8,9 +8,9 @@ function main( ) {
     // plot.savePlot();
     var testX  = [1,  1, -1,-1];
     var testY  = [1, -1, -1, 1];
-    var testX2 = [2, 3, 4, 2.5, 1, 2, 9];
-    var testY2 = [1, -1, 2, 3, 1.2, 2, 2];
-    // plot.addSeries(testX, testY);
+    var testX2 = [2,  3, 4, 2.5,   1, 2, 9];
+    var testY2 = [1, -1, 2,   3, 1.2, 2, 2];
+     plot.addSeries(testX, testY);
     plot.addSeries(testX2, testY2, 'green');
     plot.xLabel("Green");
     plot.savePlot('myfile.html');

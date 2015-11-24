@@ -16,8 +16,8 @@ function SimplePlot(   ) {
 
     
     this.path   = "";
-    this.scaleX = 2;
-    this.scaleY = 2;
+    this.scaleX = 5;
+    this.scaleY = 5;
     this.ticks  = 10;
     this.pipSize= 10;
     this.xlabel = "x";
@@ -94,6 +94,36 @@ SimplePlot.prototype.createHtml = function() {
             testString += "<div class=\"Xaxis\" style=\"position:absolute;"
                 + " left: " + this.origin[0] + "px; bottom: 0px; border: 1px solid black;"
                 + " width: 0px; height:" + this.height + "\"></div>";
+
+            //add tickmarks
+            var betweenTicks = parseInt(this.width) / this.ticks;
+            var marker       = this.origin[0] + betweenTicks;
+            while(marker > 0) {
+                if( marker > parseInt(this.width)) {
+                    betweenTicks = 0 - betweenTicks;
+                    marker       = this.origin[0] + betweenTicks;
+                }
+                testString += "<div class=\"tick\" style=\"position: absolute;" 
+                    + " bottom: 0px; left: " + (marker) + "; height: 10px; width: 1px; " 
+                    + "background-color: black\"></div>";
+                marker += betweenTicks;
+          
+            }
+            betweenTicks = parseInt(this.height) / this.ticks;
+            marker       = this.origin[1] + betweenTicks;
+            while(marker > 0) {
+                if( marker > parseInt(this.height) ) {
+                    betweenTicks = 0 - betweenTicks;
+                    marker       = this.origin[1] + betweenTicks;
+                }
+                testString += "<div class=\"tick\" style=\"position: absolute;" 
+                    + " bottom: " + (marker) + "; left: 0px; height: 1px; width: 10px; " 
+                    + "background-color: black\"></div>";
+                marker += betweenTicks;
+            }
+
+            
+            //draw dots
             for(i = 0; i < this.series.length; i++) {
                 for(j = 1; j < this.series[i].length; j++) {
                     X = this.series[i][j][0];
@@ -218,8 +248,8 @@ SimplePlot.prototype.setVars  = function( ) {
     this.origin[1] = totalH * ( Math.abs(this.minY) / fullYRange) - 1;
 
     //@TODO this doesn't have to be so generic, but low priority
-    this.scaleX = round10(xRange / this.ticks, 2);
-    this.scaleY = round10(yRange / this.ticks, 2);
+    this.scaleX = round10(fullXRange / this.ticks, 2);
+    this.scaleY = round10(fullYRange / this.ticks, 2);
 
     //http://www.jacklmoore.com/notes/rounding-in-javascript/
     function round10(value, decimals) {
