@@ -73,7 +73,8 @@ SimplePlot.prototype.createHtml = function() {
 
 	var testString = "";
     //open body
-	testString += "<html><body>";
+	testString += "<html><head><title>" + this.path + "</title>"
+            + "<link rel=\"icon\" href=\"images/favicon.ico\" type=\"image/x-icon\"></head><body>";
 		/////////
 		/////////Here is where things go
 		testString += "<div class=\"graph\" style=\"height:"
