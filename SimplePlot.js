@@ -7,7 +7,7 @@ function SimplePlot(   ) {
 	//environment vars
 	//placeholders
 	this.height = '467px';
-	this.width  = '500px';
+	this.width  = '600px';
 	this.border = "2px solid black";
 	this.minX   = '0px';
     this.minY   = '0px';
