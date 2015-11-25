@@ -105,12 +105,14 @@ SimplePlot.prototype.createHtml = function() {
                     betweenTicks = 0 - betweenTicks;
                     marker       = this.origin[0] + betweenTicks;
                 }
-                testString += "<div class=\"tick\" style=\"position: absolute;" 
-                    + " bottom: 0px; left: " + (marker) + "px; height: 10px; width: 1px; " 
-                    + "background-color: black\"></div>";
-                testString += "<div class=\"tick-label\" style=\"position: absolute;"
-                    + " bottom: -24px; left: " + (marker - 10) + "px;\">" + ( round10(scaledTick *(marker-this.origin[0]), 2) ).toString()
-                    + "</div>";
+                if(marker > 0 && marker < parseInt(this.width) ) {
+                    testString += "<div class=\"tick\" style=\"position: absolute;" 
+                        + " bottom: 0px; left: " + (marker) + "px; height: 10px; width: 1px; " 
+                        + "background-color: black\"></div>";
+                    testString += "<div class=\"tick-label\" style=\"position: absolute;"
+                        + " bottom: -24px; left: " + (marker - 10) + "px;\">" + ( round10(scaledTick *(marker-this.origin[0]), 2) ).toString()
+                        + "</div>";
+                }
                 marker += betweenTicks;
           
             }
@@ -122,12 +124,14 @@ SimplePlot.prototype.createHtml = function() {
                     betweenTicks = 0 - betweenTicks;
                     marker       = this.origin[1] + betweenTicks;
                 }
-                testString += "<div class=\"tick\" style=\"position: absolute;" 
-                    + " bottom: " + (marker) + "px; left: 0px; height: 1px; width: 10px; " 
-                    + "background-color: black\"></div>";
-                testString += "<div class=\"tick-label\" style=\"position: absolute;"
-                    + " bottom: "  + (marker - 6) + "px; left: -40px;\">" + (round10(scaledTick * ( marker - this.origin[1] ), 2) ).toString()
-                    + "</div>";
+                if( marker > 0 && marker < parseInt(this.height) ) {
+                    testString += "<div class=\"tick\" style=\"position: absolute;" 
+                        + " bottom: " + (marker) + "px; left: 0px; height: 1px; width: 10px; " 
+                        + "background-color: black\"></div>";
+                    testString += "<div class=\"tick-label\" style=\"position: absolute;"
+                        + " bottom: "  + (marker - 6) + "px; left: -40px;\">" + (round10(scaledTick * ( marker - this.origin[1] ), 2) ).toString()
+                        + "</div>";
+                }
                 marker += betweenTicks;
             }
 
