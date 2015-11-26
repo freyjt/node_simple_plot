@@ -1,5 +1,6 @@
 module.exports = {
 	SimplePlot: SimplePlot
+    Regression: Regression
 }
 
 function SimplePlot(   ) {
@@ -272,6 +273,41 @@ SimplePlot.prototype.setVars  = function( ) {
     //http://www.jacklmoore.com/notes/rounding-in-javascript/
     function round10(value, decimals) {
         return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    }
+
+}
+
+
+function Regression(arrX, arrY) {
+
+    if(Xin.length != Yin.length) {
+        console.log("Error in SimplePlot.addSeries, X and Y" + 
+            " must be the same length.");
+    } else {
+        this.Xs  = arrX;
+        this.Ys  = arrY;
+    }
+
+}
+//returns object { b: xxx, m: xxx }
+Regression.prototype.leastSquare = function( ) {
+    var i;
+    var mX =  0;
+    var mY =  0;
+    var dX = [];
+    var dY = [];
+
+    for( i = 0; i < this.Xs.length; i++ ) {
+        mX += this.Xs[i];
+        mY += this.Ys[i];
+    }
+
+    mX = mX / this.Xs.length;
+    mY = mY / this.Ys.length;
+
+    for( i = 0; i < this.Xs.length; i++ ) {
+        dX.push(this.Xs[i] - mX);
+        dY.push(this.Ys[i] - mY);
     }
 
 }
