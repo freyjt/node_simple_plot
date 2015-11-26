@@ -294,10 +294,6 @@ Regression.prototype.leastSquare = function( ) {
     var i;
     var sX =  0;
     var sY =  0;
-    var mX =  0;
-    var mY =  0;
-    var dX = [];
-    var dY = [];
     var sumProd = 0;
     var xSquare = 0;
     for( i = 0; i < this.Xs.length; i++ ) {
@@ -318,4 +314,29 @@ Regression.prototype.leastSquare = function( ) {
     var M   = num / den;
     var b   = (sY / this.Ys.length) - ( M * (sX / this.Xs.length) );
     return { b: b, m: M };
+}
+Regression.prototype.rSquared = function( ) {
+
+    var n     = this.Xs.length;
+    var xySum = 0;
+    var x2Sum = 0;
+    var xSum  = 0;
+    var y2Sum = 0;
+    var ySum  = 0;
+    var i;
+
+    for(i = 0; i < n; i++) {
+        xySum += this.Xs[i] * this.Ys[i];
+        xSum  += this.Xs[i];
+        ySum  += this.Ys[i];
+        x2Sum += Math.pow(this.Xs[i], 2);
+        y2Sum += Math.pow(this.Ys[i], 2);
+    }
+
+    var num  = Math.pow(n*xySum - (xSum * ySum), 2);
+    var den  = ( n*x2Sum - Math.pow(xSum, 2) );
+    var den /= ( n*y2Sum - Math.pow(ySum, 2) );
+
+    return num / den;
+    
 }
