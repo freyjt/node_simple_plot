@@ -280,8 +280,8 @@ SimplePlot.prototype.setVars  = function( ) {
 
 function Regression(arrX, arrY) {
 
-    if(Xin.length != Yin.length) {
-        console.log("Error in SimplePlot.addSeries, X and Y" + 
+    if(arrX.length != arrY.length) {
+        console.log("Error in Regression.constructor, X and Y" + 
             " must be the same length.");
     } else {
         this.Xs  = arrX;
@@ -292,22 +292,30 @@ function Regression(arrX, arrY) {
 //returns object { b: xxx, m: xxx }
 Regression.prototype.leastSquare = function( ) {
     var i;
+    var sX =  0;
+    var sY =  0;
     var mX =  0;
     var mY =  0;
     var dX = [];
     var dY = [];
-
+    var sumProd = 0;
+    var xSquare = 0;
     for( i = 0; i < this.Xs.length; i++ ) {
-        mX += this.Xs[i];
-        mY += this.Ys[i];
+
+        sX      +=  this.Xs[i];
+        sY      +=  this.Ys[i];
+
+        sumProd += (this.Xs[i] * this.Ys[i]);
+        xSquare += Math.pow(this.Xs[i], 2);
+
     }
 
-    mX = mX / this.Xs.length;
-    mY = mY / this.Ys.length;
 
-    for( i = 0; i < this.Xs.length; i++ ) {
-        dX.push(this.Xs[i] - mX);
-        dY.push(this.Ys[i] - mY);
-    }
+    var num = (this.Xs.length * sumprod) - (sX * sY);
+    var den = (this.Xs.length * xSquare) - Math.pow(sX, 2);
 
+
+    var M   = num / den;
+    var b   = (sY / this.Ys.length) - ( M * (sX / this.Xs.length) );
+    return { b: b, m: M };
 }
