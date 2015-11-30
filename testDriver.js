@@ -16,6 +16,7 @@ function main( ) {
     var reg   = new sPlot.Regression(testX2, testY2);
     console.log(reg.getValues());
     plot.xLabel("Green");
+    plot.yLabel("A lonaffdareredfawageae string to test g to work well.");
     plot.savePlot('myfile.html');
     plot.showPlot();
 }

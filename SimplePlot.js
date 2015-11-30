@@ -85,8 +85,12 @@ SimplePlot.prototype.createHtml = function() {
             testString += "<div class=\"xLabel\" style=\"position: absolute;"
                 + " bottom: -42px; left: 10px\">" + this.xlabel + "</div>"
             //write ylabel
-            testString += "<div class=\"xLabel\" style=\"position: absolute;"
-                + " bottom: 10px; left: -62px; transform: rotate(-90deg)\">"
+            //rotation appears to do wierd things
+            // this...seems?..to fix it?
+            var leftish = 0 - this.ylabel.length * 3 - 62
+            var bottomish = this.ylabel.length * 3 + 10
+            testString += "<div class=\"yLabel\" style=\"transform: rotate(-90deg); position: absolute;"
+                + " bottom: " + bottomish + "px; left: " + leftish + "px; \">"
                 + this.ylabel + "</div>"
             //HACKEY, YOU'RE AWESOME
             //add axis's
