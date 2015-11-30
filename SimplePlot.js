@@ -285,7 +285,6 @@ SimplePlot.prototype.setVars  = function( ) {
 
 // an object for performing regressions
 // @TODO test it.
-
 function Regression(arrX, arrY) {
     if(arrX.length != arrY.length) {
         console.log("Error in Regression.constructor, X and Y" + 
@@ -296,46 +295,43 @@ function Regression(arrX, arrY) {
     }
     this.leastSquares();
     this.rSquared();
-    //allowing you to use the object anyways
-    return this.getValues(); 
 }
 //returns object { b: xxx, m: xxx }
-Regression.prototype.leastSquare = function( ) {
+Regression.prototype.leastSquares = function( ) {
     var i;
     var sX =  0;
     var sY =  0;
     var sumProd = 0;
     var xSquare = 0;
+    this.sY = 0;
     for( i = 0; i < this.Xs.length; i++ ) {
 
         sX      +=  this.Xs[i];
-        sY      +=  this.Ys[i];
-
+        this.sY +=  this.Ys[i]; //eat some memory to save time in r2
         sumProd += (this.Xs[i] * this.Ys[i]);
         xSquare += Math.pow(this.Xs[i], 2);
 
     }
 
-
-    var num = (this.Xs.length * sumprod) - (sX * sY);
+    var num = (this.Xs.length * sumProd) - (sX * this.sY);
     var den = (this.Xs.length * xSquare) - Math.pow(sX, 2);
 
     //set these so we can use them in the regression.
     this.m   = num / den;
-    this.b   = (sY / this.Ys.length) - ( M * (sX / this.Xs.length) );
+    this.b   = (this.sY / this.Ys.length) - ( this.m * (sX / this.Xs.length) );
 }
 Regression.prototype.rSquared = function( ) {
     var length = this.Xs.length;
     var smEr2 = 0;
     var smDi2 = 0;
     var predY = 0;
-    var meanY = sumY / n;
+    var meanY = this.sY / length;
     for(i = 0; i < length; i++) {
-        predY  = this.b + ( this.m * xList[i] );
-        smEr2 += Math.pow(yList[i] - predY, 2);
-        smDi2 += Math.pow(yList[i] - meanY, 2);
+        predY  = this.b + ( this.m * this.Xs[i] );
+        smEr2 += Math.pow(this.Ys[i] - predY, 2);
+        smDi2 += Math.pow(this.Ys[i] - meanY, 2);
     }
-    r2 = smEr2 / smDi2;
+    this.r2 = smEr2 / smDi2;
     
 }
 // returns object of the form {m: this.m, b: this.b, r2: this.r2}
@@ -356,6 +352,4 @@ Regression.prototype.setSeries = function( xIn, yIn) {
     }
     this.leastSquares();
     this.rSquared();
-    //allowing you to use the object anyways
-    return this.getValues();
 }
