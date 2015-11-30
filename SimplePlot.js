@@ -326,13 +326,18 @@ Regression.prototype.rSquared = function( ) {
     var smDi2 = 0;
     var predY = 0;
     var meanY = this.sY / length;
+    var i;
     for(i = 0; i < length; i++) {
         predY  = this.b + ( this.m * this.Xs[i] );
+
         smEr2 += Math.pow(this.Ys[i] - predY, 2);
         smDi2 += Math.pow(this.Ys[i] - meanY, 2);
     }
-    this.r2 = smEr2 / smDi2;
-    
+
+    // console.log(smEr2 + " : " + smDi2);
+    //@TODO irl, discover why this doesn't need to be squared at
+    //   the end.
+    this.r2 = 1 - (smEr2 / smDi2);
 }
 // returns object of the form {m: this.m, b: this.b, r2: this.r2}
 Regression.prototype.getValues = function( ) {
