@@ -1,5 +1,5 @@
 module.exports = {
-	SimplePlot: SimplePlot
+	SimplePlot: SimplePlot,
     Regression: Regression
 }
 
@@ -310,10 +310,10 @@ Regression.prototype.leastSquare = function( ) {
     var num = (this.Xs.length * sumprod) - (sX * sY);
     var den = (this.Xs.length * xSquare) - Math.pow(sX, 2);
 
-
-    var M   = num / den;
-    var b   = (sY / this.Ys.length) - ( M * (sX / this.Xs.length) );
-    return { b: b, m: M };
+    //set these so we can use them in the regression.
+    this.m   = num / den;
+    this.b   = (sY / this.Ys.length) - ( M * (sX / this.Xs.length) );
+    return { b: this.b, m: this.m };
 }
 Regression.prototype.rSquared = function( ) {
 
