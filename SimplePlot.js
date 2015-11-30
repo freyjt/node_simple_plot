@@ -211,13 +211,17 @@ SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
     }
 
 }
+
+// @TODO typecheck these
 SimplePlot.prototype.xLabel    = function(newLabel) {
     this.xlabel = newLabel;
 }
 SimplePlot.prototype.yLabel    = function(newLabel) {
     this.ylabel = newLabel;
 }
-
+SimplePlot.prototype.setPipSize = function( newSize) {
+    this.pipSize = newSize;
+}
 
 SimplePlot.prototype.setVars  = function( ) {
     var minX = 0; //ok to use 0 here because
@@ -278,8 +282,11 @@ SimplePlot.prototype.setVars  = function( ) {
 }
 
 
-function Regression(arrX, arrY) {
 
+// an object for performing regressions
+// @TODO test it.
+
+function Regression(arrX, arrY) {
     if(arrX.length != arrY.length) {
         console.log("Error in Regression.constructor, X and Y" + 
             " must be the same length.");
@@ -287,7 +294,10 @@ function Regression(arrX, arrY) {
         this.Xs  = arrX;
         this.Ys  = arrY;
     }
-
+    this.leastSquares();
+    this.rSquared();
+    //allowing you to use the object anyways
+    return this.getValues(); 
 }
 //returns object { b: xxx, m: xxx }
 Regression.prototype.leastSquare = function( ) {
@@ -313,30 +323,39 @@ Regression.prototype.leastSquare = function( ) {
     //set these so we can use them in the regression.
     this.m   = num / den;
     this.b   = (sY / this.Ys.length) - ( M * (sX / this.Xs.length) );
-    return { b: this.b, m: this.m };
 }
 Regression.prototype.rSquared = function( ) {
-
-    var n     = this.Xs.length;
-    var xySum = 0;
-    var x2Sum = 0;
-    var xSum  = 0;
-    var y2Sum = 0;
-    var ySum  = 0;
-    var i;
-
-    for(i = 0; i < n; i++) {
-        xySum += this.Xs[i] * this.Ys[i];
-        xSum  += this.Xs[i];
-        ySum  += this.Ys[i];
-        x2Sum += Math.pow(this.Xs[i], 2);
-        y2Sum += Math.pow(this.Ys[i], 2);
+    var length = this.Xs.length;
+    var smEr2 = 0;
+    var smDi2 = 0;
+    var predY = 0;
+    var meanY = sumY / n;
+    for(i = 0; i < length; i++) {
+        predY  = this.b + ( this.m * xList[i] );
+        smEr2 += Math.pow(yList[i] - predY, 2);
+        smDi2 += Math.pow(yList[i] - meanY, 2);
     }
-
-    var num  = Math.pow(n*xySum - (xSum * ySum), 2);
-    var den  = ( n*x2Sum - Math.pow(xSum, 2) );
-        den /= ( n*y2Sum - Math.pow(ySum, 2) );
-
-    return num / den;
+    r2 = smEr2 / smDi2;
     
+}
+// returns object of the form {m: this.m, b: this.b, r2: this.r2}
+Regression.prototype.getValues = function( ) {
+    return {
+        m:  this.m,
+        b:  this.b,
+        r2: this.r2
+    }
+}
+Regression.prototype.setSeries = function( xIn, yIn) {
+    if(xIn.length != yIn.length) {
+        console.log("Error in Regression.constructor, X and Y" + 
+            " must be the same length.");
+    } else {
+        this.Xs  = xIn;
+        this.Ys  = yIn;
+    }
+    this.leastSquares();
+    this.rSquared();
+    //allowing you to use the object anyways
+    return this.getValues();
 }
