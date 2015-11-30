@@ -335,7 +335,7 @@ Regression.prototype.rSquared = function( ) {
 
     var num  = Math.pow(n*xySum - (xSum * ySum), 2);
     var den  = ( n*x2Sum - Math.pow(xSum, 2) );
-    var den /= ( n*y2Sum - Math.pow(ySum, 2) );
+        den /= ( n*y2Sum - Math.pow(ySum, 2) );
 
     return num / den;
     
