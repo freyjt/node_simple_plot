@@ -20,5 +20,11 @@ function main( ) {
     plot.savePlot('myfile.html');
     plot.showPlot();
     
+    var lft = testX2;
+    var oneList = new sPlot.OneListStats( );
+    oneList.getValues();
+    oneList.setList( testX2 );
+    console.log( oneList.getValues( ) );
+    console.log( oneList.getSummary( ) );
 }
 main();

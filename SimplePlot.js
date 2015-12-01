@@ -372,13 +372,13 @@ function OneListStats( listIn ) {
     this.sum     = null;
     this.avarage = null; //this will be group
     this.stdDev  = null;
-    if( typeof(listIn) !== undefined)
+    if( typeof(listIn) !== "undefined")
         this.setList(listIn);
 
 }
 OneListStats.prototype.setList = function(listIn) {
     try {
-        if( !listIn.isArray() ) {
+        if( !Array.isArray(listIn) ) {
             listIn = null;
             throw "Error";
         }
@@ -389,13 +389,14 @@ OneListStats.prototype.setList = function(listIn) {
             }
         }
     } catch(err) {
-        console.log(err + " OneListStats.setList Requires an array argument. List set to null.");
+        console.log(err + "\n OneListStats.setList Requires an array argument. List set to null.");
     }
     this.List = listIn;
 }
 OneListStats.prototype.avgStd = function( ) {
 
-    if( this.List !== null) {
+    if( this.List !== null ) {
+        console.log("*" + this.List);
         var sum  = 0;
         var sum2 = 0;
         var n    = this.List.length;
@@ -416,10 +417,13 @@ OneListStats.prototype.avgStd = function( ) {
     }
 
 }
-OnelistStats.prototype.getPercentile = function( P ) {
+OneListStats.prototype.getPercentile = function( P ) {
     var returner = null;
 
-    if(this.List !== null) {
+    if(typeof(this.List) !== 'undefined') {
+        function sorter(a, b) { return a - b; }
+        this.List.sort(sorter());
+
         try {
             if(P < 1) {
                 P = 1;
@@ -432,8 +436,8 @@ OnelistStats.prototype.getPercentile = function( P ) {
             console.log( err + " in OneListStats.getPercentile. P set to " + P);
         }
 
-        if(P ==  1) { returner = this.List[0]; }
-        if(P == 99) { returner = this.List[this.List.length - 1}]; }
+        if     (P ==  1) { returner = this.List[0]; }
+        else if(P == 99) { returner = this.List[this.List.length - 1]; }
         else {
             var k = this.List.length * P / 100;
             if(Math.floor(k) == k) { //int check
@@ -449,24 +453,30 @@ OnelistStats.prototype.getPercentile = function( P ) {
         console.log("Error in OneListStats.getPercentile. List is unset.");
         returner = null;
     }
+    return returner;
 }
 OneListStats.prototype.getValues = function() {
     this.avgStd( ); // make sure values are set
                     // calling here will prevent them from being called
                     // when we don't need them
-    return {
-        n:      this.List.length,
-        sum:    this.sum,
-        avg:    this.average,
-        stdDev: this.stdDev
+    if(this.List !== null)
+        return {
+            n:      this.List.length,
+            sum:    this.sum,
+            avg:    this.average,
+            stdDev: this.stdDev
+        }
+    else {
+        console.log("Error, cannot get stats on an unset list.");
+        return null;
     }
 }
-OneListStats.prototype.getFiveSummary = function() {
+OneListStats.prototype.getSummary = function() {
     return {
-        '1':     this.List[0],
+        '1':     this.getPercentile(1),
         '25':    this.getPercentile(25),
         '50':    this.getPercentile(50),
-        '75':    this.getPercnetile(75),
-        '99':    this.List[this.List.length - 1]; 
-    }
+        '75':    this.getPercentile(75),
+        '99':    this.getPercentile(99)
+    };
 }
