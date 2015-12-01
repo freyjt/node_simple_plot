@@ -362,3 +362,54 @@ Regression.prototype.setSeries = function( xIn, yIn) {
     this.leastSquares();
     this.rSquared();
 }
+
+
+
+///a function for getting all sorts of stats about a list
+function OneListStats( listIn ) {
+    this.List    = null;
+    this.sum     = null;
+    this.avarage = null; //this will be group
+    this.stdDev  = null;
+    if( typeof(listIn) !== undefined)
+        this.setList(listIn);
+
+}
+OneListStats.prototype.setList = function(listIn) {
+    try {
+        if( !listIn.isArray() ) {
+            listIn = null;
+            throw "Error";
+        }
+        for(var i = 0; i < listIn.length; i++) {
+            if(typeof(listIn[i]) !== 'number') {
+                listIn = null;
+                throw "Error";
+            }
+        }
+    } catch(err) {
+        console.log(err + " OneListStats.setList Requires an array argument. List set to null.");
+    }
+    this.List = listIn;
+}
+OneListStats.prototype.avgStd = function( ) {
+    if( this.List !== null) {
+        var sum = 0;
+        for(var i = 0; i < this.List.length; i++) {
+            sum += this.list[i];
+        }
+        this.sum = sum;
+
+
+    } else {
+        console.log( "Error, OneListStats.list has not been set.");
+    }
+}
+OneListStats.prototype.getValues = function() {
+    return {
+        n:      this.List.length,
+        sum:    this.sum,
+        avg:    this.average,
+        stdDev: this.stdDev
+    }
+}

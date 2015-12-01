@@ -12,12 +12,13 @@ function main( ) {
     var testX2 = [2,  3, 4, 2.5,   1, 2, 9];
     var testY2 = [1, -1, 2,   3, 1.2, 2, 2];
      // plot.addSeries(testX, testY);
-    plot.addSeries(testX2, testY2, 'images/rabbit.png');
+    plot.addSeries(testX2, testY2, 'images/Favicon.ico');
     var reg   = new sPlot.Regression(testX2, testY2);
     console.log(reg.getValues());
     plot.xLabel("Green");
     plot.yLabel("A lonaffdareredfawageae string to test g to work well.");
     plot.savePlot('myfile.html');
     plot.showPlot();
+    
 }
 main();
