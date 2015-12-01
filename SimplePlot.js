@@ -393,17 +393,30 @@ OneListStats.prototype.setList = function(listIn) {
     this.List = listIn;
 }
 OneListStats.prototype.avgStd = function( ) {
-    if( this.List !== null) {
-        var sum = 0;
-        for(var i = 0; i < this.List.length; i++) {
-            sum += this.list[i];
-        }
-        this.sum = sum;
 
+    if( this.List !== null) {
+        var sum  = 0;
+        var sum2 = 0;
+        var n    = this.List.length;
+        for(var i = 0; i < this.List.length; i++) {
+            sum  += this.List[i];
+            sum2 += Math.pow(this.List[i], 2)
+        }
+        this.sum     = sum;
+        this.average = this.sum / n;
+        if( n > 1) {
+            var inner    = (n * sum2) - Math.pow(sum, 2);
+                inner   /= (n - 1) * n;
+            this.stdDev = Math.sqrt( inner );
+        } else { this.stdDev = 0; }
 
     } else {
-        console.log( "Error, OneListStats.list has not been set.");
+        console.log( "Error calling OnelistStats.avgStd, OneListStats.List has not been set.");
     }
+    
+}
+OnelistStats.prototype.getPercentile = function( P ) {
+
 }
 OneListStats.prototype.getValues = function() {
     return {
