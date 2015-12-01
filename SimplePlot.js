@@ -413,12 +413,46 @@ OneListStats.prototype.avgStd = function( ) {
     } else {
         console.log( "Error calling OnelistStats.avgStd, OneListStats.List has not been set.");
     }
-    
-}
-OnelistStats.prototype.getPercentile = function( P ) {
 
 }
+OnelistStats.prototype.getPercentile = function( P ) {
+    var returner = null;
+
+    if(this.List !== null) {
+        try {
+            if(P < 1) {
+                P = 1;
+                throw "Error: Out of bounds.";
+            } else if( P > 99){
+                P = 99;
+                throw "Error: Out of bounds.";
+            }
+        } catch (err) {
+            console.log( err + " in OneListStats.getPercentile. P set to " + P);
+        }
+
+        if(P ==  1) { returner = this.List[0]; }
+        if(P == 99) { returner = this.List[this.List.length - 1}]; }
+        else {
+            var k = this.List.length * P / 100;
+            if(Math.floor(k) == k) { //int check
+                k = Math.floor(k);
+                returner = (this.List[k] + this.List[k + 1]) / 2;
+            } else {
+                k = Math.ceil(k);
+                returner = this.List[k];
+            }
+        }
+        
+    } else {
+        console.log("Error in OneListStats.getPercentile. List is unset.");
+        returner = null;
+    }
+}
 OneListStats.prototype.getValues = function() {
+    this.avgStd( ); // make sure values are set
+                    // calling here will prevent them from being called
+                    // when we don't need them
     return {
         n:      this.List.length,
         sum:    this.sum,
