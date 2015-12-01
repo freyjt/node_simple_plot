@@ -1,6 +1,7 @@
 module.exports = {
-	SimplePlot: SimplePlot,
-    Regression: Regression
+	SimplePlot:   SimplePlot,
+    Regression:   Regression,
+    OneListStats: OneListStats
 }
 
 function SimplePlot(   ) {
@@ -443,7 +444,7 @@ OnelistStats.prototype.getPercentile = function( P ) {
                 returner = this.List[k];
             }
         }
-        
+
     } else {
         console.log("Error in OneListStats.getPercentile. List is unset.");
         returner = null;
@@ -458,5 +459,14 @@ OneListStats.prototype.getValues = function() {
         sum:    this.sum,
         avg:    this.average,
         stdDev: this.stdDev
+    }
+}
+OneListStats.prototype.getFiveSummary = function() {
+    return {
+        '1':     this.List[0],
+        '25':    this.getPercentile(25),
+        '50':    this.getPercentile(50),
+        '75':    this.getPercnetile(75),
+        '99':    this.List[this.List.length - 1]; 
     }
 }
