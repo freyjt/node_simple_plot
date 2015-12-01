@@ -4,6 +4,20 @@ module.exports = {
     OneListStats: OneListStats
 }
 
+
+
+  //     .                            . . .  . . .. ..    . . .  . ....................................
+  //  .MMMIMM.    MM               .  ..  ..  MMM . .. .  ..  ..MMMMMO. ...MMMM................MM .....
+  // +M,.  MM  . .O8............................M ..............MM ...MM ....MM............ ...MM......
+  // ?M7.    . .ZMMM ....MMMM:MM:..MMMMMM.......M ......MMMMN ..MM ...MM.....MM......MMMMO ..MMMMMMM ..
+  //   NMMM...    MM .   MM.MM MM  MM   =M?     M     8M,. .OM  MMMMMMM,.   .MM.   ~M~.  MM    MM. .   
+  //      MMM     MM     MM.MM.MM  MM.   MM     M .   MMMMMMMMM.MM   .. .. ..MM... MM..  .MM . MM. ... 
+  // MM.  .MM.    MM .   MM.MM.MM  MM.  .MM     M ....NM.    .  MM  ... .. ..MM..  MM . .,M: . MM ..~. 
+  // MMMMMMM.   ZMMMMM. .MM.MM.MM. MMMMMMM    MMMMM .. DMMMMMM  MM   .   . MMMMMD.  DMMMMM+. . +MMMMM  
+  //   .  .                .    .. MM..   .        . . .  .   .    .............. ................... .
+  //   .    .. . .. .   ..      .. MM.                              ... .. ... ............ .. ... ....
+  //        .       .    . .. . ..                                   ..    ..  ..    ..  ..    ..  ..  
+  //                                                                                    GlassGiant.com
 function SimplePlot(   ) {
 	
 	//environment vars
@@ -288,6 +302,21 @@ SimplePlot.prototype.setVars  = function( ) {
 
 
 
+
+
+
+// ... .. ......... . .      .                                              .                          
+// ..MMMMMMM~ ..... .      .                                                :MM.                       
+//  .MM....MM....,?:.      ~?.          =+.    ~I,      ,+I,      :I~.         .      ~I:.       :I.   
+//  .MM...=MM .MMM ~MM.  MM8 ~MM  MMMMMMMM   MM:.MMZ  ZM8. =M   MM= .8M    MMMM.   .MM~ OMN   M:M.=MM. 
+//   MMMMMM: .?M,,,,,MM.=M,.  ,M    MM.     MM,,,,+M  DMM+....  MMM:.        MM.   MM.    M=  M7   MM. 
+//  .MM.+MZ ..7M:,,,,,,.7M.   ,M    MM      MM,,,,,, . .+MMMMM    $MMMMO     MM.   MM     MO. M.   MM. 
+// ..MM..~MM...MM.  .M.  MM, .MM    MM.     +M7 ..~.  :?  ..MM. M.  ..MD     MM  . $MO...MM.  M.   MM. 
+//  .MM...,MM . :MMMM:    ,OM?.M  MMMMM=      ZMMMO    7MMMM$   ,ZMMMM=.   MMMMM=.  .OMMM=    M.   MM. 
+// ...... ....... ..  .  8....MM                                                                       
+//   ..            .......MMMMD ............. . .......... . ...... ...................................
+// .  ..             .. .. .. .  ... .  .  ..   ...    ...   ..  .  ... ..  ... .   .  . .. ...   ...  
+//                                                                                      GlassGiant.com
 // an object for performing regressions
 // @TODO test it.
 function Regression(arrX, arrY) {
@@ -366,7 +395,20 @@ Regression.prototype.setSeries = function( xIn, yIn) {
 
 
 
-///a function for getting all sorts of stats about a list
+
+
+
+
+//  ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...
+// ..7MMMZ ..................M.........MM ............MM......NMMMN....M...............M...............
+// .MM ..MM .................M........... ............MM.....NM . M....M...............M...............
+//  M.   ,M  M~MMM+. MMMMMM  M.       MMM    $MMMMM  MMMMMM  ,MM~ .  MMMMMM.  MMMMM+ MMMMMM.  MMMMM+.  
+//  M   ..M .M  .MM DMMMMMM. M. ..  .. MM   .MMMO.. ..MM..  ..  7MM  . M..  ...MMMMM.. M..  ..MMM+. .. 
+// .M8 . ZM  M.. MM NM.     .M.. ... ..MM .. ...~8M7..MM..   NM  .MM ..M.. . $M...MM...M...  ....=MM ..
+// ..MMMMM...M...MM .8MMMMM..MMMMMM...MMMM=..MMMMMM... MMMM..MMMMMM... NMMM:.:NMMMMM.. MMMMZ .MMMMMM.. 
+// ...   ........  ... . ....      ...    ....   . .... .. ..      .....    ..  . .  ..... .....  .....
+                                                                                     // GlassGiant.com
+///an object for getting all sorts of stats about a list
 function OneListStats( listIn ) {
     this.List    = null;
     this.sum     = null;
