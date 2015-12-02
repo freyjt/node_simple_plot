@@ -40,7 +40,7 @@ function SimplePlot(   ) {
     this.ylabel = "y";
     this.origin = [0, 0];
 
-    this.series = []; //plotable series
+    this.series = []; //plotable series's x = ..[pos][i][0] y = ..[pos][i][0]
 
 }
 SimplePlot.prototype.savePlot   = function( filePath ) {
@@ -112,7 +112,7 @@ SimplePlot.prototype.createHtml = function() {
             testString += "<div class=\"Xaxis\" style=\"position:absolute;"
                 + " bottom: " + this.origin[1] + "px; left: 0px; border: 1px solid black;"
                 + " height: 0px; width:" + this.width + "\"></div>";
-            testString += "<div class=\"Xaxis\" style=\"position:absolute;"
+            testString += "<div class=\"Yaxis\" style=\"position:absolute;"
                 + " left: " + this.origin[0] + "px; bottom: 0px; border: 1px solid black;"
                 + " width: 0px; height:" + this.height + "\"></div>";
 
@@ -300,6 +300,25 @@ SimplePlot.prototype.setVars  = function( ) {
 
 }
 
+// @Input seriesSelector - 0 indexed referencing in order of addSeries
+//          can be omitted for zero or @TODO 'all' for sombined series'
+SimplePlot.prototype.addRegression = function(seriesSelector) {
+    
+    if( typeof(seriesSelector) === 'undefined'){
+        seriesSelector = 0;
+    }
+    if( typeof(this.series[seriesSelector]) === 'undefined') {
+        console.log("Error, cannot plot indicated series; not added.");
+    } else {
+
+        var reg = new Regression( ); // .. should be able to do this. else have to call from exports
+
+    }
+} 
+
+
+
+
 
 
 
@@ -318,7 +337,7 @@ SimplePlot.prototype.setVars  = function( ) {
 // .  ..             .. .. .. .  ... .  .  ..   ...    ...   ..  .  ... ..  ... .   .  . .. ...   ...  
 //                                                                                      GlassGiant.com
 // an object for performing regressions
-// @TODO test it.
+
 function Regression(arrX, arrY) {
     if(arrX.length != arrY.length) {
         console.log("Error in Regression.constructor, X and Y" + 
@@ -368,7 +387,6 @@ Regression.prototype.rSquared = function( ) {
         smDi2 += Math.pow(this.Ys[i] - meanY, 2);
     }
 
-    // console.log(smEr2 + " : " + smDi2);
     //@TODO irl, discover why this doesn't need to be squared at
     //   the end.
     this.r2 = 1 - (smEr2 / smDi2);
@@ -481,7 +499,7 @@ OneListStats.prototype.getPercentile = function( P ) {
         if     (P ==  1) { returner = this.List[0]; }
         else if(P == 99) { returner = this.List[this.List.length - 1]; }
         else {
-            var k = this.List.length * P / 100;
+            var k = (this.List.length * P / 100) - 1; //because 0 indexed
             if(Math.floor(k) == k) { //int check
                 k = Math.floor(k);
                 returner = (this.List[k] + this.List[k + 1]) / 2;

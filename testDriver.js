@@ -25,6 +25,7 @@ function main( ) {
     oneList.getValues();
     oneList.setList( testX2 );
     console.log( oneList.getValues( ) );
+    oneList.setList( [1,2,3,4,5,6] );
     console.log( oneList.getSummary( ) );
 }
 main();
