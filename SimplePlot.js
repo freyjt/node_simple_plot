@@ -30,7 +30,7 @@ function SimplePlot(   ) {
     this.maxX   = '0px';
     this.maxY   = '0px';
 
-    
+    this.regLoc = [];
     this.path   = "";
     this.scaleX = 5;
     this.scaleY = 5;
@@ -56,7 +56,6 @@ SimplePlot.prototype.savePlot   = function( filePath ) {
 	
     fs.writeFileSync(this.path, pltStr);
 	
-
     this.path = tempPath;
 	function genRand( ) {
 		var alph    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -164,7 +163,7 @@ SimplePlot.prototype.createHtml = function() {
 
                     //transform x and y
                     xTrans = this.origin[0] + ( parseInt(this.width)  * ( X / xRange ) ) - (this.pipSize / 2);
-                    yTrans = this.origin[1] + ( parseInt(this.height) * ( Y / yRange ) ) - (this.pipSize / 2);
+                    yTrans = this.origin[1] + ( parseInt(this.height) * ( Y / yRange ) ) + (this.pipSize / 2);
                     if(xTrans > this.width || xTrans < 0 || yTrans > this.height || yTrans < 0) {
                         console.log("Error in createHtml, pip rendered out of bounds");
                     }
@@ -173,7 +172,7 @@ SimplePlot.prototype.createHtml = function() {
                         + " left: " + xTrans + "; bottom: " + yTrans + "; height:" + this.pipSize + ";width: " + this.pipSize +  "\"></img>";
                 }
             }
-
+            testString += writeRegression( );
 		testString += "</div>";
     //close body
 	testString += "</body></html>";
@@ -302,47 +301,64 @@ SimplePlot.prototype.setVars  = function( ) {
 
 // @Input seriesSelector - 0 indexed referencing in order of addSeries
 //          can be omitted for zero or @TODO 'all' for sombined series'
-SimplePlot.prototype.addRegression = function(seriesSelector) {
+// @return string representation of images
+SimplePlot.prototype.writeRegression = function( ) {
     
-    if( typeof(seriesSelector) === 'undefined'){
-        seriesSelector = 0;
+    var retString = "";
+    for(var ss = 0; ss < this.regLoc.length; ss++) {
+        if( typeof(this.series[seriesSelector]) === 'undefined') {
+            console.log("Error, cannot plot indicated series; not added.");
+        } else {
+            //have to split series'
+            var ss = seriesSelector;
+            var xSeries = [];
+            var ySeries = [];
+            //remember to start at one because you were too lazy
+            // to make a series object so 0 is the series color reference
+            for(var i = 1; i < this.series[ss].length; i++) {
+                xSeries.push( this.series[ss][i][0] );
+                ySeries.push( this.series[ss][i][1] );
+            }
+
+            var reg = new Regression(xSeries, ySeries); // .. should be able to do this. else have to call from exports
+                reg = reg.getValues();
+
+            // rise is now in units of px
+            //  the origin are also in units of px
+            var rise    = reg.m * parseInt(this.width);
+
+            // mean of line, then we add or subtract based on negativity..sort of
+            //
+            var fromBot    = this.origin[0] + (this.height - this.origin[0]) * (reg.b / this.maxY);
+            var diffAtNopx = this.origin[1] * m; //m can be -, +, 0
+            ////////////
+                fromBot    = fromBot + (rise/2) - diffAtNopx; //if positive it pushes down, neg up, 0 0
+            //@TODO make more images and figure out how to call them;
+            var ref = "";
+            if     ( reg.m > 0 ) { ref = './images/regpos.png'; }
+            else if( reg.m < 0 ) { ref = "./images/regneg.png"; }
+            else                 { ref = "./images/regflat.png";}
+
+            retString += "<img src=\"" + ref + "\" style=\"position: absolute; left: 0px; bottom: " +
+                        fromBot + "; height: " + rise + "px; width: " + this.width + ";\"></img>";
+
+        }
     }
-    if( typeof(this.series[seriesSelector]) === 'undefined') {
-        console.log("Error, cannot plot indicated series; not added.");
+    return retString;
+
+}
+
+SimplePlot.prototype.addRegression = function(intIn) {
+    if( typeof(intIn) === 'number'){
+        this.regLoc.push( Math.floor(intIn) );
     } else {
-        //have to split series'
-        var ss = seriesSelector;
-        var xSeries = [];
-        var ySeries = [];
-        for(var i = 0; i < this.series[ss].length; i++) {
-            xSeries.push( this.series[ss][i][0] );
-            ySeries.push( this.series[ss][i][1] );
-        }
-
-        var reg = new Regression(xSeries, ySeries); // .. should be able to do this. else have to call from exports
-            reg = reg.getValues();
-
-        // rise is now in units of px
-        //  the origin are also in units of px
-        var rise = reg.m * parseInt(this.width);
-
+        console.log("Error, cannot add series for SimplePlot.addRegression, not a number or does not exist.")
     }
 }
-
-SimplePlot.prototype.setRegression = function(boolIn) {
-    if(typeof(boolIn) == 'string') {
-        if(boolIn == 'true' || boolIn == "True" || boolIn == "TRUE") {
-            boolIn = true;
-        } else { 
-            boolIn = false;
-        }
-    }
-    else {// may lead to some wierd behavior, but users are savvy ;)
-        this.useRegression = boolIn;
-    }
+SimplePlot.prototype.removeRegression = function(intIn) {
+    var index = this.useRegression.indexOf( intIn );
+    if( index > -1 ){this.useRegression.splice( index, 1); }
 }
-
-
 
 
 
