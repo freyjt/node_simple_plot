@@ -310,11 +310,37 @@ SimplePlot.prototype.addRegression = function(seriesSelector) {
     if( typeof(this.series[seriesSelector]) === 'undefined') {
         console.log("Error, cannot plot indicated series; not added.");
     } else {
+        //have to split series'
+        var ss = seriesSelector;
+        var xSeries = [];
+        var ySeries = [];
+        for(var i = 0; i < this.series[ss].length; i++) {
+            xSeries.push( this.series[ss][i][0] );
+            ySeries.push( this.series[ss][i][1] );
+        }
 
-        var reg = new Regression( ); // .. should be able to do this. else have to call from exports
+        var reg = new Regression(xSeries, ySeries); // .. should be able to do this. else have to call from exports
+            reg = reg.getValues();
+
+        // rise is now in units of px
+        //  the origin are also in units of px
+        var rise = reg.m * parseInt(this.width);
 
     }
-} 
+}
+
+SimplePlot.prototype.setRegression = function(boolIn) {
+    if(typeof(boolIn) == 'string') {
+        if(boolIn == 'true' || boolIn == "True" || boolIn == "TRUE") {
+            boolIn = true;
+        } else { 
+            boolIn = false;
+        }
+    }
+    else {// may lead to some wierd behavior, but users are savvy ;)
+        this.useRegression = boolIn;
+    }
+}
 
 
 
