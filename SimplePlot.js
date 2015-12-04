@@ -340,7 +340,8 @@ SimplePlot.prototype.writeRegression = function( ) {
 
             retString += "<img src=\"" + ref + "\" style=\"position: absolute; left: 0px; bottom: " +
                         fromBot + "; height: " + rise + "px; width: " + this.width + ";\"></img>";
-
+            retString += "<div class=\"regLabel\" style=\"position: absolute; left: 0px; bottom: " +
+                        ((-15 * (1+ss)) - 42) + "\">y=" + reg.m + "x + " + reg.b + "</div>";
         }
     }
     return retString;
