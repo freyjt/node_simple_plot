@@ -163,7 +163,7 @@ SimplePlot.prototype.createHtml = function() {
 
                     //transform x and y
                     xTrans = this.origin[0] + ( parseInt(this.width)  * ( X / xRange ) ) - (this.pipSize / 2);
-                    yTrans = this.origin[1] + ( parseInt(this.height) * ( Y / yRange ) ) + (this.pipSize / 2);
+                    yTrans = this.origin[1] + ( parseInt(this.height) * ( Y / yRange ) ) - (this.pipSize / 2);
                     if(xTrans > this.width || xTrans < 0 || yTrans > this.height || yTrans < 0) {
                         console.log("Error in createHtml, pip rendered out of bounds");
                     }
@@ -325,16 +325,21 @@ SimplePlot.prototype.writeRegression = function( ) {
 
             // rise is now in units of px
             //  the origin are also in units of px
-            var rise = reg.m * parseInt(this.width);
+            var xRange = this.maxX - this.minX;
+            var yRange = this.maxY - this.minY;
+
+            var sloper =  (parseFloat(this.width) * yRange)/(parseFloat(this.height)* xRange);
+                
+            var rise = (reg.m) * ( parseInt(this.width) ) / sloper;
 
             // mean of line, then we add or subtract based on negativity..sort of
             //
             console.log("DebugThat" + ((parseFloat(this.height) - this.origin[0]) * (reg.b / parseFloat(this.maxY) ) )) ;
             console.log(this.maxY);
             var fromBot    = this.origin[1] + (parseFloat(this.height) - this.origin[0]) * (reg.b / parseFloat(this.maxY));
-            var diffAtNopx = this.origin[0] * reg.m; //m can be -, +, 0
+            var diffAtNopx = (this.origin[0] * reg.m ) / sloper; //m can be -, +, 0
             ////////////
-                fromBot    = fromBot - rise - diffAtNopx; //if positive it pushes down, neg up, 0 0
+                fromBot    = fromBot -  diffAtNopx;
             //@TODO make more images and figure out how to call them;
             var ref = "";
             if     ( reg.m > 0 ) { ref = './images/regpos.png'; }
