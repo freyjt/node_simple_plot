@@ -330,7 +330,7 @@ SimplePlot.prototype.writeRegression = function( ) {
 
             var sloper =  (parseFloat(this.width) * yRange)/(parseFloat(this.height) * xRange);
                 
-            var rise = reg.m * parseInt(this.width) / sloper;
+            var rise = Math.abs(reg.m * parseInt(this.width) / sloper);//abs then work out slope on image
             rise = (rise == 0) ? 5 : rise;
             // mean of line, then we add or subtract based on negativity..sort of
             //
@@ -347,10 +347,16 @@ SimplePlot.prototype.writeRegression = function( ) {
             //now we need to subtract out the difference between the
             // origin location and the start of the height of the line
             //  at zero px
-            var differ  = rise * (this.origin[0] / parseInt(this.width) );
+            var differ = 0;
+            //take from the left if slope is positive, right if negative
+            if( reg.m >= 0) {
+                differ  = rise * (this.origin[0] / parseInt(this.width) );
+            } else { differ = rise * ((parseInt(this.width) - this.origin[0]) / parseInt(this.width) );}
 
+
+            console.log("differ: " + rise * (this.origin[0] / parseInt(this.width)));
             var fromBot = yInt - differ;
-
+            console.log("p/u: " + (parseFloat(this.height) / yRange) );
             //@TODO make more images and figure out how to call them;
             var ref = "";
             if     ( reg.m > 0 ) { ref = './images/regpos.png'; }

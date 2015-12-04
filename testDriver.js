@@ -13,11 +13,12 @@ function main( ) {
     var testY2 = [1, -1, 2,   3, 1.2, 2, 2];
     var testX3 = [-1, -4, 5, 3, 2, -5, 0, 5, 8];
     var testY3 = [-.5, -2, 2.5, 1.5, 1, -2.5, 0, 2.5, 4];
-    
+    var testX4 = [-1,0,2,3,4];
+    var testY4 = [5,4,3,2,1];
     plot.addSeries(testX, testY);
     plot.addSeries(testX2, testY2, 'images/Favicon.ico');
     plot.addSeries(testX3, testY3, 'blue');
-    
+    plot.addSeries(testX4, testY4, 'purple');
     var reg   = new sPlot.Regression(testX2, testY2);
     console.log(reg.getValues());
     plot.xLabel("Green");
@@ -28,7 +29,7 @@ function main( ) {
     plot.addRegression(2);
     plot.addRegression(0);
     plot.addRegression(1);
-
+    plot.addRegression(3);
     plot.showPlot();
     
     var lft = testX2;
