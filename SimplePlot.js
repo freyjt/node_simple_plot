@@ -332,13 +332,6 @@ SimplePlot.prototype.writeRegression = function( ) {
                 
             var rise = Math.abs(reg.m * parseInt(this.width) / sloper);//abs then work out slope on image
             rise = (rise == 0) ? 5 : rise;
-            // mean of line, then we add or subtract based on negativity..sort of
-            //
-            //this doesn't put the yIntercept at the right place, but rather puts the bottom of the
-            //  image near the thing
-            // var fromBot    = (this.origin[1] - (rise / ( parseFloat(this.width) / this.origin[0]) ) );
-            //     fromBot   += (parseFloat(this.height) - this.origin[0]) * (reg.b / parseFloat(this.maxY));
-            // var diffAtNopx = (this.origin[0] * reg.m ) / sloper; //m can be -, +, 0
 
             //first, find the y - intercept relative to the bottom in pixels
             var yInt  = reg.b; //load the intercept in units
@@ -353,10 +346,8 @@ SimplePlot.prototype.writeRegression = function( ) {
                 differ  = rise * (this.origin[0] / parseInt(this.width) );
             } else { differ = rise * ((parseInt(this.width) - this.origin[0]) / parseInt(this.width) );}
 
-
-            console.log("differ: " + rise * (this.origin[0] / parseInt(this.width)));
             var fromBot = yInt - differ;
-            console.log("p/u: " + (parseFloat(this.height) / yRange) );
+
             //@TODO make more images and figure out how to call them;
             var ref = "";
             if     ( reg.m > 0 ) { ref = './images/regpos.png'; }
@@ -365,9 +356,13 @@ SimplePlot.prototype.writeRegression = function( ) {
 
             retString += "<img src=\"" + ref + "\" style=\"position: absolute; left: 0px; bottom: " +
                         fromBot + "px; height: " + rise + "px; width: " + parseFloat(this.width) + "px;\"></img>";
-            // print label //@todo add series image ahead of label?
-            retString += "<div class=\"regLabel\" style=\"position: absolute; left: 0px; bottom: " +
-                        ((-17 * (1+ss)) - 42) + "\">y = " + reg.m + " * x + " + reg.b + "</div>";
+            // print label //@todo add series image ahead of label
+            
+            var labBot = ((-17 * (1+ss)) - 42);
+            retString += "<img src=\"" + this.series[ss][0] + "\" style=\"position: absolute; left: 0px;" +
+                        "bottom: " + labBot + "px; height: 13px; width: 13px; \"><img>" 
+            retString += "<div class=\"regLabel\" style=\"position: absolute; left: 17px; bottom: " +
+                        labBot + "px\">y = " + reg.m + " * x + " + reg.b + "</div>";
 
         }
     }
