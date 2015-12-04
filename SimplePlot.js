@@ -330,15 +330,27 @@ SimplePlot.prototype.writeRegression = function( ) {
 
             var sloper =  (parseFloat(this.width) * yRange)/(parseFloat(this.height) * xRange);
                 
-            var rise = (reg.m) * ( parseInt(this.width) ) / sloper;
-
+            var rise = reg.m * parseInt(this.width) / sloper;
+            rise = (rise == 0) ? 50 : rise;
             // mean of line, then we add or subtract based on negativity..sort of
             //
+            //this doesn't put the yIntercept at the right place, but rather puts the bottom of the
+            //  image near the thing
+            // var fromBot    = (this.origin[1] - (rise / ( parseFloat(this.width) / this.origin[0]) ) );
+            //     fromBot   += (parseFloat(this.height) - this.origin[0]) * (reg.b / parseFloat(this.maxY));
+            // var diffAtNopx = (this.origin[0] * reg.m ) / sloper; //m can be -, +, 0
 
-            var fromBot    = this.origin[1] + (parseFloat(this.height) - this.origin[0]) * (reg.b / parseFloat(this.maxY));
-            var diffAtNopx = (this.origin[0] * reg.m ) / sloper; //m can be -, +, 0
-            ////////////
-                fromBot    = fromBot -  diffAtNopx;
+            //first, find the y - intercept relative to the bottom in pixels
+            var yInt  = reg.b; //load the intercept in units
+                yInt *= parseFloat(this.height) / yRange; //mult by px/u
+                yInt += this.origin[1];
+            //now we need to subtract out the difference between the
+            // origin location and the start of the height of the line
+            //  at zero px
+            var differ  = rise * (this.origin[0] / parseInt(this.width))
+
+            var fromBot = yInt - differ;
+
             //@TODO make more images and figure out how to call them;
             var ref = "";
             if     ( reg.m > 0 ) { ref = './images/regpos.png'; }
