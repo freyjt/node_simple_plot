@@ -172,7 +172,7 @@ SimplePlot.prototype.createHtml = function() {
                         + " left: " + xTrans + "; bottom: " + yTrans + "; height:" + this.pipSize + ";width: " + this.pipSize +  "\"></img>";
                 }
             }
-            testString += writeRegression( );
+            testString += this.writeRegression( );
 		testString += "</div>";
     //close body
 	testString += "</body></html>";
@@ -306,11 +306,10 @@ SimplePlot.prototype.writeRegression = function( ) {
     
     var retString = "";
     for(var ss = 0; ss < this.regLoc.length; ss++) {
-        if( typeof(this.series[seriesSelector]) === 'undefined') {
+        if( typeof(this.series[ss]) === 'undefined') {
             console.log("Error, cannot plot indicated series; not added.");
         } else {
             //have to split series'
-            var ss = seriesSelector;
             var xSeries = [];
             var ySeries = [];
             //remember to start at one because you were too lazy
@@ -330,7 +329,7 @@ SimplePlot.prototype.writeRegression = function( ) {
             // mean of line, then we add or subtract based on negativity..sort of
             //
             var fromBot    = this.origin[0] + (this.height - this.origin[0]) * (reg.b / this.maxY);
-            var diffAtNopx = this.origin[1] * m; //m can be -, +, 0
+            var diffAtNopx = this.origin[1] * reg.m; //m can be -, +, 0
             ////////////
                 fromBot    = fromBot + (rise/2) - diffAtNopx; //if positive it pushes down, neg up, 0 0
             //@TODO make more images and figure out how to call them;
