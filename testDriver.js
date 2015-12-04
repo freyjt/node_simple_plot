@@ -28,10 +28,12 @@ function main( ) {
 
     plot.addRegression(2);
     plot.addRegression(0);
-    plot.addRegression(1);
-    plot.addRegression(3);
+    // plot.addRegression(1);
+    // plot.addRegression(3);
     plot.showPlot();
     
+    plot.addRegression('all');
+    plot.showPlot();
     var lft = testX2;
     var oneList = new sPlot.OneListStats( );
     oneList.getValues();
