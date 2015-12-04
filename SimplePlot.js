@@ -350,9 +350,21 @@ SimplePlot.prototype.writeRegression = function( ) {
 
             //@TODO make more images and figure out how to call them;
             var ref = "";
-            if     ( reg.m > 0 ) { ref = './images/regpos.png'; }
-            else if( reg.m < 0 ) { ref = "./images/regneg.png"; }
-            else                 { ref = "./images/regflat.png";}
+            if     ( reg.m > 0 ) { ref = './images/regpos'; }
+            else if( reg.m < 0 ) { ref = "./images/regneg"; }
+            else                 { ref = "./images/regflat";}
+            var fs     = require('fs');
+            var imgEnd = this.series[ss][0].substr(7);
+
+            try {
+                stats = fs.lstatSync(ref + imgEnd);
+                if(stats.isFile()) {
+                    ref = ref + imgEnd;
+                }
+            } catch (e) {
+                ref = ref + '.png';
+            }
+
 
             retString += "<img src=\"" + ref + "\" style=\"position: absolute; left: 0px; bottom: " +
                         fromBot + "px; height: " + rise + "px; width: " + parseFloat(this.width) + "px;\"></img>";
