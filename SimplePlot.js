@@ -305,6 +305,7 @@ SimplePlot.prototype.setVars  = function( ) {
 SimplePlot.prototype.writeRegression = function( ) {
     
     var retString = "";
+
     for(var ss = 0; ss < this.regLoc.length; ss++) {
         if( typeof(this.series[ss]) === 'undefined') {
             console.log("Error, cannot plot indicated series; not added.");
@@ -328,10 +329,12 @@ SimplePlot.prototype.writeRegression = function( ) {
 
             // mean of line, then we add or subtract based on negativity..sort of
             //
-            var fromBot    = this.origin[0] + (this.height - this.origin[0]) * (reg.b / this.maxY);
-            var diffAtNopx = this.origin[1] * reg.m; //m can be -, +, 0
+            console.log("DebugThat" + ((parseFloat(this.height) - this.origin[0]) * (reg.b / parseFloat(this.maxY) ) )) ;
+            console.log(this.maxY);
+            var fromBot    = this.origin[1] + (parseFloat(this.height) - this.origin[0]) * (reg.b / parseFloat(this.maxY));
+            var diffAtNopx = this.origin[0] * reg.m; //m can be -, +, 0
             ////////////
-                fromBot    = fromBot + (rise/2) - diffAtNopx; //if positive it pushes down, neg up, 0 0
+                fromBot    = fromBot - rise - diffAtNopx; //if positive it pushes down, neg up, 0 0
             //@TODO make more images and figure out how to call them;
             var ref = "";
             if     ( reg.m > 0 ) { ref = './images/regpos.png'; }
@@ -339,9 +342,12 @@ SimplePlot.prototype.writeRegression = function( ) {
             else                 { ref = "./images/regflat.png";}
 
             retString += "<img src=\"" + ref + "\" style=\"position: absolute; left: 0px; bottom: " +
-                        fromBot + "; height: " + rise + "px; width: " + this.width + ";\"></img>";
+                        fromBot + "px; height: " + rise + "px; width: " + parseFloat(this.width) + "px;\"></img>";
+            // print label //@todo add series image ahead of label?
             retString += "<div class=\"regLabel\" style=\"position: absolute; left: 0px; bottom: " +
                         ((-17 * (1+ss)) - 42) + "\">y = " + reg.m + " * x + " + reg.b + "</div>";
+
+            console.log( diffAtNopx + "  : origin");
         }
     }
     return retString;
