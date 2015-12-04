@@ -25,7 +25,7 @@ function main( ) {
     plot.savePlot('myfile.html');
 
 
-    // plot.addRegression(2);
+    plot.addRegression(2);
     plot.addRegression(0);
     plot.addRegression(1);
 

@@ -331,7 +331,7 @@ SimplePlot.prototype.writeRegression = function( ) {
             var sloper =  (parseFloat(this.width) * yRange)/(parseFloat(this.height) * xRange);
                 
             var rise = reg.m * parseInt(this.width) / sloper;
-            rise = (rise == 0) ? 50 : rise;
+            rise = (rise == 0) ? 5 : rise;
             // mean of line, then we add or subtract based on negativity..sort of
             //
             //this doesn't put the yIntercept at the right place, but rather puts the bottom of the
@@ -347,7 +347,7 @@ SimplePlot.prototype.writeRegression = function( ) {
             //now we need to subtract out the difference between the
             // origin location and the start of the height of the line
             //  at zero px
-            var differ  = rise * (this.origin[0] / parseInt(this.width))
+            var differ  = rise * (this.origin[0] / parseInt(this.width) );
 
             var fromBot = yInt - differ;
 
