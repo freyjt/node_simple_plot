@@ -320,12 +320,12 @@ SimplePlot.prototype.writeRegression = function( ) {
                 ySeries.push( this.series[ss][i][1] );
             }
 
-            var reg = new Regression(xSeries, ySeries); // .. should be able to do this. else have to call from exports
-                reg = reg.getValues();
+            var reg  = new Regression(xSeries, ySeries); // .. should be able to do this. else have to call from exports
+                reg  = reg.getValues();
 
             // rise is now in units of px
             //  the origin are also in units of px
-            var rise    = reg.m * parseInt(this.width);
+            var rise = reg.m * parseInt(this.width);
 
             // mean of line, then we add or subtract based on negativity..sort of
             //

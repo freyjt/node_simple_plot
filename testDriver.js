@@ -18,6 +18,10 @@ function main( ) {
     plot.xLabel("Green");
     plot.yLabel("A lonaffdareredfawageae string to test g to work well.");
     plot.savePlot('myfile.html');
+
+    plot.addRegression(0);
+    plot.addRegression(1);
+    
     plot.showPlot();
     
     var lft = testX2;
