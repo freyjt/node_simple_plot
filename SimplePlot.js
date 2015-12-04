@@ -328,14 +328,13 @@ SimplePlot.prototype.writeRegression = function( ) {
             var xRange = this.maxX - this.minX;
             var yRange = this.maxY - this.minY;
 
-            var sloper =  (parseFloat(this.width) * yRange)/(parseFloat(this.height)* xRange);
+            var sloper =  (parseFloat(this.width) * yRange)/(parseFloat(this.height) * xRange);
                 
             var rise = (reg.m) * ( parseInt(this.width) ) / sloper;
 
             // mean of line, then we add or subtract based on negativity..sort of
             //
-            console.log("DebugThat" + ((parseFloat(this.height) - this.origin[0]) * (reg.b / parseFloat(this.maxY) ) )) ;
-            console.log(this.maxY);
+
             var fromBot    = this.origin[1] + (parseFloat(this.height) - this.origin[0]) * (reg.b / parseFloat(this.maxY));
             var diffAtNopx = (this.origin[0] * reg.m ) / sloper; //m can be -, +, 0
             ////////////
@@ -352,7 +351,6 @@ SimplePlot.prototype.writeRegression = function( ) {
             retString += "<div class=\"regLabel\" style=\"position: absolute; left: 0px; bottom: " +
                         ((-17 * (1+ss)) - 42) + "\">y = " + reg.m + " * x + " + reg.b + "</div>";
 
-            console.log( diffAtNopx + "  : origin");
         }
     }
     return retString;
