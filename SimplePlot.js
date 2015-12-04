@@ -299,8 +299,7 @@ SimplePlot.prototype.setVars  = function( ) {
 
 }
 
-// @Input seriesSelector - 0 indexed referencing in order of addSeries
-//          can be omitted for zero or @TODO 'all' for sombined series'
+
 // @return string representation of images
 SimplePlot.prototype.writeRegression = function( ) {
     
@@ -381,10 +380,16 @@ SimplePlot.prototype.writeRegression = function( ) {
     return retString;
 
 }
-
+// @Input seriesSelector - 0 indexed referencing in order of addSeries
+//          can be omitted for zero or @TODO 'all' for combined series'
 SimplePlot.prototype.addRegression = function(intIn) {
     if( typeof(intIn) === 'number'){
         this.regLoc.push( Math.floor(intIn) );
+    } else if(intIn ==='all'){
+        this.regLoc = [];
+        for(var i = 0; i < this.series.length; i++) {
+            this.regLoc.push(i);
+        }
     } else {
         console.log("Error, cannot add series for SimplePlot.addRegression, not a number or does not exist.")
     }
