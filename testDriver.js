@@ -32,8 +32,7 @@ function main( ) {
     // plot.addRegression(3);
     plot.showPlot();
     
-    plot.addRegression('all');
-    plot.showPlot();
+
     var lft = testX2;
     var oneList = new sPlot.OneListStats( );
     oneList.getValues();
@@ -41,5 +40,8 @@ function main( ) {
     console.log( oneList.getValues( ) );
     oneList.setList( [1,2,3,4,5,6] );
     console.log( oneList.getSummary( ) );
+    newPlot = eval(uneval(plot));
+    newPlot.addRegression('all');
+    newPlot.showPlot();
 }
 main();

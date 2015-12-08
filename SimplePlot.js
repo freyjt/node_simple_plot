@@ -39,7 +39,7 @@ function SimplePlot(   ) {
     this.xlabel = "x";
     this.ylabel = "y";
     this.origin = [0, 0];
-
+    this.title  = "";
     this.series = []; //plotable series's x = ..[pos][i][0] y = ..[pos][i][0]
 
 }
@@ -80,15 +80,13 @@ SimplePlot.prototype.showPlot   = function( ) {
 SimplePlot.prototype.createHtml = function() {
 
     this.setVars();
-
     var i, j, X, Y, xTrans, yTrans;
-
     var xRange = this.maxX - this.minX;
     var yRange = this.maxY - this.minY;
-
 	var testString = "";
+    var title = (this.title.length > 0) ? this.title : this.path;
     //open body
-	testString += "<html><head><title>" + this.path + "</title>"
+	testString += "<html><head><title>" + title + "</title>"
             + "<link rel=\"icon\" href=\"images/favicon.ico\" type=\"image/x-icon\"></head><body>";
 		/////////
 		/////////Here is where things go
@@ -101,7 +99,7 @@ SimplePlot.prototype.createHtml = function() {
             //write ylabel
             //rotation appears to do wierd things
             // this...seems?..to fix it?
-            var leftish = 0 - this.ylabel.length * 3 - 62
+            var leftish   = 0 - this.ylabel.length * 3 - 62
             var bottomish = this.ylabel.length * 3 + 10
             testString += "<div class=\"yLabel\" style=\"transform: rotate(-90deg); position: absolute;"
                 + " bottom: " + bottomish + "px; left: " + leftish + "px; \">"
@@ -183,7 +181,9 @@ SimplePlot.prototype.createHtml = function() {
         return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
     }
 }
-
+SimplePlot.prototype.setTitle  = function( titleIn ) {
+    this.title = titleIn;
+}
 
 
 SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
