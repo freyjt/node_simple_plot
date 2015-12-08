@@ -26,10 +26,12 @@ function main( ) {
     plot.savePlot('myfile.html');
 
 
+
     plot.addRegression(2);
     plot.addRegression(0);
     // plot.addRegression(1);
     // plot.addRegression(3);
+    plot.setTitle( "MyPlot" );
     plot.showPlot();
     
 
@@ -40,8 +42,10 @@ function main( ) {
     console.log( oneList.getValues( ) );
     oneList.setList( [1,2,3,4,5,6] );
     console.log( oneList.getSummary( ) );
-    newPlot = eval(uneval(plot));
-    newPlot.addRegression('all');
-    newPlot.showPlot();
+    // newPlot = eval(uneval(plot));
+    // newPlot.addRegression('all');
+    // newPlot.showPlot();
+
+
 }
 main();

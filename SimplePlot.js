@@ -93,6 +93,9 @@ SimplePlot.prototype.createHtml = function() {
 		testString += "<div class=\"graph\" style=\"height:"
 			+ this.height + "; width: " + this.width  + "; border: "
 			+ this.border + "; position: absolute; left: 70px; top: 70px\">";
+            //write plot label
+            testString += "<div class=\"chartLabel\" style=\"position: absolute; size: 15px; "
+                + " top: -30px; left: 25px;\"><strong>" + title + "</strong></div>";
             //write xlabel
             testString += "<div class=\"xLabel\" style=\"position: absolute;"
                 + " bottom: -42px; left: 10px\">" + this.xlabel + "</div>"
@@ -184,8 +187,6 @@ SimplePlot.prototype.createHtml = function() {
 SimplePlot.prototype.setTitle  = function( titleIn ) {
     this.title = titleIn;
 }
-
-
 SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
     if(Xin.length != Yin.length) {
         console.log("Error in SimplePlot.addSeries, X and Y" + 
@@ -229,15 +230,14 @@ SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
     }
 
 }
-
 // @TODO typecheck these
-SimplePlot.prototype.xLabel    = function(newLabel) {
+SimplePlot.prototype.xLabel     = function( newLabel) {
     this.xlabel = newLabel;
 }
-SimplePlot.prototype.yLabel    = function(newLabel) {
+SimplePlot.prototype.yLabel     = function( newLabel) {
     this.ylabel = newLabel;
 }
-SimplePlot.prototype.setPipSize = function( newSize) {
+SimplePlot.prototype.setPipSize = function( newSize ) {
     this.pipSize = newSize;
 }
 
