@@ -495,10 +495,6 @@ Regression.prototype.setSeries = function( xIn, yIn) {
 
 
 
-
-
-
-
 //  ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...
 // ..7MMMZ ..................M.........MM ............MM......NMMMN....M...............M...............
 // .MM ..MM .................M........... ............MM.....NM . M....M...............M...............
@@ -508,16 +504,18 @@ Regression.prototype.setSeries = function( xIn, yIn) {
 // ..MMMMM...M...MM .8MMMMM..MMMMMM...MMMM=..MMMMMM... MMMM..MMMMMM... NMMM:.:NMMMMM.. MMMMZ .MMMMMM.. 
 // ...   ........  ... . ....      ...    ....   . .... .. ..      .....    ..  . .  ..... .....  .....
                                                                                      // GlassGiant.com
-///an object for getting all sorts of stats about a list
+///an object for getting some stats about a list
 function OneListStats( listIn ) {
     this.List    = null;
     this.sum     = null;
-    this.avarage = null; //this will be group
+    this.avarage = null; 
     this.stdDev  = null;
     if( typeof(listIn) !== "undefined")
         this.setList(listIn);
 
-}
+} //END constructor.
+
+//changes the list stored in this object
 OneListStats.prototype.setList = function(listIn) {
     try {
         if( !Array.isArray(listIn) ) {
@@ -534,7 +532,10 @@ OneListStats.prototype.setList = function(listIn) {
         console.log(err + "\n OneListStats.setList Requires an array argument. List set to null.");
     }
     this.List = listIn;
-}
+} //END setList
+
+//Internal method. calculates the average and standard deviation
+// of the list stored in the object in one go to save overhead.
 OneListStats.prototype.avgStd = function( ) {
 
     if( this.List !== null ) {
@@ -557,8 +558,13 @@ OneListStats.prototype.avgStd = function( ) {
     } else {
         console.log( "Error calling OnelistStats.avgStd, OneListStats.List has not been set.");
     }
+} //END avgStd
 
-}
+//Returns a value based on the list that represents
+// the percentile given by P
+// *uses traditional calculation, so return will 
+// either always be a number in the list, or the average
+// of two numbers in the list.
 OneListStats.prototype.getPercentile = function( P ) {
     
 
@@ -579,9 +585,10 @@ OneListStats.prototype.getPercentile = function( P ) {
             console.log( err + " in OneListStats.getPercentile. P set to " + P);
         }
 
-        if     (P ==  1) { returner = this.List[0]; }
         //@TODO this is not perfect, no? what of a very large list, couldn't
-        //  this be less than the last?
+        //  this be less than the last? also, I don't know if p==1 is correct
+        //  either way
+        if     (P ==  1) { returner = this.List[0]; }
         else if(P == 99) { returner = this.List[this.List.length - 1]; }
         else {
             var k = (this.List.length * P / 100) - 1; //because 0 indexed
@@ -599,7 +606,10 @@ OneListStats.prototype.getPercentile = function( P ) {
         returner = null;
     }
     return returner;
-}
+}// END getPercentile
+
+// Returns a summary of tradionally useful statistics
+//  on the list that is stored in the object
 OneListStats.prototype.getValues = function() {
     this.avgStd( ); // make sure values are set
                     // calling here will prevent them from being called
@@ -615,7 +625,10 @@ OneListStats.prototype.getValues = function() {
         console.log("Error, cannot get stats on an unset list.");
         return null;
     }
-}
+} //END getValues()
+
+//Returns an object representation of the five
+// number summary for the list stored in the object
 OneListStats.prototype.getSummary = function() {
     return {
         '1':     this.getPercentile(1),
@@ -624,4 +637,4 @@ OneListStats.prototype.getSummary = function() {
         '75':    this.getPercentile(75),
         '99':    this.getPercentile(99)
     };
-}
+} //END getSummary

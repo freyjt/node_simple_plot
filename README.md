@@ -63,7 +63,7 @@ A simple scatter plot library for nodejs
                 returns object of the form:<br/>
                 { n: size of list, <br/>
                 sum: sum of list, <br/>
-                avg: average of list, <br/>
+                avg: arithmetic mean of list, <br/>
                 stdDev: standard deviation of list }</li>
             <li>object getSummary( )<br/>
                 return 5-number summary of the form:<br/>
