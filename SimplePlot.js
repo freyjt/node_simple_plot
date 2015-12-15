@@ -43,6 +43,10 @@ function SimplePlot(   ) {
     this.series = []; //plotable series's x = ..[pos][i][0] y = ..[pos][i][0]
 
 }
+
+//Saves a static html representation of the scatter plot to
+// a filepath specified by the user, or locally using a randomly
+// generated path
 SimplePlot.prototype.savePlot   = function( filePath ) {
     var tempPath = this.path;
 
@@ -67,16 +71,22 @@ SimplePlot.prototype.savePlot   = function( filePath ) {
 		}
 		return ret;
 	}
-}
+} //END savePlot()
 
+//Saves the plot locally and opens it in
+// the system's default browser
 SimplePlot.prototype.showPlot   = function( ) {
 	
 	this.savePlot( 'temp.html' );
     var open = require('open');
     open('temp.html');
 
-}
+} //END showPlot
 
+
+//Creates the major portions of html
+// code for the display of the object
+// in it's current state
 SimplePlot.prototype.createHtml = function() {
 
     this.setVars();
@@ -183,10 +193,37 @@ SimplePlot.prototype.createHtml = function() {
     function round10(value, decimals) {
         return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
     }
-}
+} //End createHTML
+
+// setter for plotTitle
 SimplePlot.prototype.setTitle  = function( titleIn ) {
     this.title = titleIn;
-}
+} //END setTitle
+
+// setter for x-label
+//  makes sure stored as string
+SimplePlot.prototype.xLabel     = function( newLabel) {
+    this.xlabel = newLabel.toString();
+} //END xLabel
+
+// setter for y-label
+//  makes sure it is stored as a string
+SimplePlot.prototype.yLabel     = function( newLabel) {
+    this.ylabel = newLabel.toString();
+} //END yLabel
+
+// setter for the size of dots used in
+//  the scatterplot in px
+SimplePlot.prototype.setPipSize = function( newSize ) {
+    if(typeof(newSize) == number)
+        this.pipSize = newSize;
+    else{ 
+        console.log("Error in SimplePlot.setPipSize," +
+            " non-number passed in, pipSize unchanged."); 
+    }
+} //END setPipSize
+
+
 SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
     if(Xin.length != Yin.length) {
         console.log("Error in SimplePlot.addSeries, X and Y" + 
@@ -230,16 +267,7 @@ SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
     }
 
 }
-// @TODO typecheck these
-SimplePlot.prototype.xLabel     = function( newLabel) {
-    this.xlabel = newLabel;
-}
-SimplePlot.prototype.yLabel     = function( newLabel) {
-    this.ylabel = newLabel;
-}
-SimplePlot.prototype.setPipSize = function( newSize ) {
-    this.pipSize = newSize;
-}
+
 
 SimplePlot.prototype.setVars  = function( ) {
     var minX = 0; //ok to use 0 here because
@@ -531,7 +559,7 @@ OneListStats.prototype.setList = function(listIn) {
         if( errList.length > 0 ) {
             console.log("Attempt to set non-numbers in OneListStats.setList");
             console.log("  The following were not added");
-            for(i = 0 i < errList.length; i++) {
+            for(i = 0; i < errList.length; i++) {
                 console.log("     " + errList[i]);
             }
         }
@@ -560,7 +588,7 @@ OneListStats.prototype.extendList = function (listIn) {
         if(errList.length > 0) {
             console.log("Attempt to append non-numbers in OneListStats.extendList");
             console.log("  The following were not added");
-            for(i = 0 i < errList.length; i++) {
+            for(i = 0; i < errList.length; i++) {
                 console.log("     " + errList[i]);
             }
         }
