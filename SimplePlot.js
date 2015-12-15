@@ -560,8 +560,9 @@ OneListStats.prototype.avgStd = function( ) {
 
 }
 OneListStats.prototype.getPercentile = function( P ) {
-    var returner = null;
+    
 
+    var returner = null;
     if(typeof(this.List) !== 'undefined') {
         function sorter(a, b) { return a - b; }
         this.List.sort(sorter());
@@ -579,6 +580,8 @@ OneListStats.prototype.getPercentile = function( P ) {
         }
 
         if     (P ==  1) { returner = this.List[0]; }
+        //@TODO this is not perfect, no? what of a very large list, couldn't
+        //  this be less than the last?
         else if(P == 99) { returner = this.List[this.List.length - 1]; }
         else {
             var k = (this.List.length * P / 100) - 1; //because 0 indexed
