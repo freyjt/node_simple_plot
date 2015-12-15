@@ -506,7 +506,7 @@ Regression.prototype.setSeries = function( xIn, yIn) {
                                                                                      // GlassGiant.com
 ///an object for getting some stats about a list
 function OneListStats( listIn ) {
-    this.List    = null;
+    this.List    = [];
     this.sum     = null;
     this.avarage = null; 
     this.stdDev  = null;
@@ -534,6 +534,33 @@ OneListStats.prototype.setList = function(listIn) {
     this.List = listIn;
 } //END setList
 
+OneListStats.prototype.extendList = function (listIn) {
+    try {
+        if( !Array.isArray(listIn) ) {
+            listIn = null;
+            throw "Error";
+        }
+        var i;
+        var errList = [];
+        for(i = 0; i < listIn.length; i++) {
+            if( typeof( listIn[i] ) !== 'number' ){
+                errList.push( listIn[i] );
+            } else {
+                this.list.push( listIn[i] );
+            }
+        }
+        if(errList.length > 0) {
+            console.log("Attempt to append non-numbers in OneListStats.");
+            console.log("  The following were not added");
+            for(i = 0 i < errList.length; i++) {
+                console.log("     " + errList[i]);
+            }
+        }
+    }
+    catch(err) {
+        console.log(err + "\n OneListStats.extendList Requires an array argument. List set to null.");
+    }
+}
 //Internal method. calculates the average and standard deviation
 // of the list stored in the object in one go to save overhead.
 OneListStats.prototype.avgStd = function( ) {
