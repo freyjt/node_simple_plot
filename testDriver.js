@@ -32,6 +32,7 @@ function main( ) {
     // plot.addRegression(1);
     // plot.addRegression(3);
     plot.setTitle( "MyPlot" );
+    plot.setTitle("");
     plot.showPlot();
     
 

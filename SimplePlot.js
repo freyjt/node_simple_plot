@@ -110,11 +110,11 @@ SimplePlot.prototype.createHtml = function() {
             //HACKEY, YOU'RE AWESOME
             //add axis's
             testString += "<div class=\"Xaxis\" style=\"position:absolute;"
-                + " bottom: " + this.origin[1] + "px; left: 0px; border: 1px solid black;"
-                + " height: 0px; width:" + this.width + "\"></div>";
+                + " bottom: " + this.origin[1] + "px; left: 0px; background-color: black;"
+                + " height: 1px; width:" + this.width + "\"></div>";
             testString += "<div class=\"Yaxis\" style=\"position:absolute;"
-                + " left: " + this.origin[0] + "px; bottom: 0px; border: 1px solid black;"
-                + " width: 0px; height:" + this.height + "\"></div>";
+                + " left: " + this.origin[0] + "px; bottom: 0px; background-color: black;"
+                + " width: 1px; height:" + this.height + "\"></div>";
 
             //add tickmarks
             var scaledTick   = xRange / parseInt(this.width);
@@ -267,6 +267,7 @@ SimplePlot.prototype.setVars  = function( ) {
     //     we want to give the user range control
     //     adjust accordingly
     //     also this assumes a non-square scale, which, you know...maybe fine
+    //     @Past me: what did you mean by that?
     if( minX < 0 ) this.minX = minX - .05 * xRange;
     else           this.minX = 0;
     if( minY < 0 ) this.minY = minY - .05 * yRange;
@@ -367,8 +368,8 @@ SimplePlot.prototype.writeRegression = function( ) {
 
             retString += "<img src=\"" + ref + "\" style=\"position: absolute; left: 0px; bottom: " +
                         fromBot + "px; height: " + rise + "px; width: " + parseFloat(this.width) + "px;\"></img>";
-            // print label //@todo add series image ahead of label
             
+            // print label 
             var labBot = ((-17 * (1+ss)) - 42);
             retString += "<img src=\"" + this.series[ss][0] + "\" style=\"position: absolute; left: 0px;" +
                         "bottom: " + labBot + "px; height: 13px; width: 13px; \"><img>" 
