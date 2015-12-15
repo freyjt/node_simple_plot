@@ -223,7 +223,9 @@ SimplePlot.prototype.setPipSize = function( newSize ) {
     }
 } //END setPipSize
 
-
+// Adds a series in the form of two lists
+//  and a color name *or* path to image file for
+//  the pip display
 SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
     if(Xin.length != Yin.length) {
         console.log("Error in SimplePlot.addSeries, X and Y" + 
@@ -266,9 +268,10 @@ SimplePlot.prototype.addSeries = function(Xin, Yin, color) {
         this.series.push(newSeries);
     }
 
-}
+}// END addSeries
 
-
+// Update self with variables that will be needed
+//  when drawing the plot.
 SimplePlot.prototype.setVars  = function( ) {
     var minX = 0; //ok to use 0 here because
     var minY = 0; // we want the axis to be at 0
@@ -326,9 +329,10 @@ SimplePlot.prototype.setVars  = function( ) {
         return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
     }
 
-}
+} //End setVars
 
-
+// Create the html for displaying regression lines for all series'
+//  requested
 // @return string representation of images
 SimplePlot.prototype.writeRegression = function( ) {
     
@@ -408,7 +412,9 @@ SimplePlot.prototype.writeRegression = function( ) {
     }
     return retString;
 
-}
+} //End writeRegression
+
+
 // @Input seriesSelector - 0 indexed referencing in order of addSeries
 //          can be omitted for zero or @TODO 'all' for combined series'
 SimplePlot.prototype.addRegression = function(intIn) {
@@ -422,11 +428,15 @@ SimplePlot.prototype.addRegression = function(intIn) {
     } else {
         console.log("Error, cannot add series for SimplePlot.addRegression, not a number or does not exist.")
     }
-}
+} //END addRegression
+
+//Remove an index for a regression previously added
+// by addRegression
+// If index is not present in list of regressions, does nothing
 SimplePlot.prototype.removeRegression = function(intIn) {
     var index = this.useRegression.indexOf( intIn );
     if( index > -1 ){this.useRegression.splice( index, 1); }
-}
+} //END removeRegresssion
 
 
 
