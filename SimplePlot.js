@@ -522,15 +522,23 @@ OneListStats.prototype.setList = function(listIn) {
             listIn = null;
             throw "Error";
         }
+        var errList = [];
         for(var i = 0; i < listIn.length; i++) {
             if(typeof(listIn[i]) !== 'number') {
-                listIn = null;
-                throw "Error";
+                errList.push(listIn[i]);
+            }
+        }
+        if( errList.length > 0 ) {
+            console.log("Attempt to set non-numbers in OneListStats.setList");
+            console.log("  The following were not added");
+            for(i = 0 i < errList.length; i++) {
+                console.log("     " + errList[i]);
             }
         }
     } catch(err) {
         console.log(err + "\n OneListStats.setList Requires an array argument. List set to null.");
     }
+
     this.List = listIn;
 } //END setList
 
@@ -550,7 +558,7 @@ OneListStats.prototype.extendList = function (listIn) {
             }
         }
         if(errList.length > 0) {
-            console.log("Attempt to append non-numbers in OneListStats.");
+            console.log("Attempt to append non-numbers in OneListStats.extendList");
             console.log("  The following were not added");
             for(i = 0 i < errList.length; i++) {
                 console.log("     " + errList[i]);
