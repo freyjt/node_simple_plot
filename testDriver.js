@@ -48,5 +48,12 @@ function main( ) {
     // newPlot.showPlot();
 
 
+    var oneThousand = [];
+    for(i = 0; i < 1000; i++) {
+        oneThousand.push( Math.random() * 1000 ); 
+        //when do you think new Math.random() will show up in node?
+    }
+    oneList.setList( oneThousand );
+    console.log( oneList.getSummary() );
 }
 main();
