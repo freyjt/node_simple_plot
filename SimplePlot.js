@@ -639,8 +639,6 @@ OneListStats.prototype.avgStd = function( ) {
 // either always be a number in the list, or the average
 // of two numbers in the list.
 OneListStats.prototype.getPercentile = function( P ) {
-    
-
     var returner = null;
     if(typeof(this.List) !== 'undefined') {
         function sorter(a, b) { return a - b; }
@@ -658,22 +656,14 @@ OneListStats.prototype.getPercentile = function( P ) {
             console.log( err + " in OneListStats.getPercentile. P set to " + P);
         }
 
-        //@TODO this is not perfect, no? what of a very large list, couldn't
-        //  this be less than the last? also, I don't know if p==1 is correct
-        //  either way
-        if     (P ==  1) { returner = this.List[0]; }
-        else if(P == 99) { returner = this.List[this.List.length - 1]; }
-        else {
-            var k = (this.List.length * P / 100) - 1; //because 0 indexed
-            if(Math.floor(k) == k) { //int check
-                k = Math.floor(k);
-                returner = (this.List[k] + this.List[k + 1]) / 2;
-            } else {
-                k = Math.ceil(k);
-                returner = this.List[k];
-            }
+        var k = (this.List.length * P / 100) - 1; //because 0 indexed
+        if(Math.floor(k) === k) { //int check
+            k = Math.floor(k);
+            returner = (this.List[k] + this.List[k + 1]) / 2;
+        } else {
+            k = Math.ceil(k);
+            returner = this.List[k];
         }
-
     } else {
         console.log("Error in OneListStats.getPercentile. List is unset.");
         returner = null;
@@ -703,11 +693,21 @@ OneListStats.prototype.getValues = function() {
 //Returns an object representation of the five
 // number summary for the list stored in the object
 OneListStats.prototype.getSummary = function() {
-    return {
-        '1':     this.getPercentile(1),
-        '25':    this.getPercentile(25),
-        '50':    this.getPercentile(50),
-        '75':    this.getPercentile(75),
-        '99':    this.getPercentile(99)
-    };
+    var retObj;
+    if(typeof(this.List) !== 'undefined') {
+        this.List.sort();
+        retObj = {
+            'first': this.List[0],
+            '1':     this.getPercentile(1),
+            '25':    this.getPercentile(25),
+            '50':    this.getPercentile(50),
+            '75':    this.getPercentile(75),
+            '99':    this.getPercentile(99),
+            'last':  this.List[this.List.length - 1]
+        };
+    } else {
+        console.log("Error, can't get a summary before defining a list. Returning null.");
+        retObj = null;
+    }
+    return retObj;
 } //END getSummary
