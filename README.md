@@ -68,12 +68,16 @@ A simple scatter plot library for nodejs
             <li>object getSummary( )<br/>
                 return 5-number summary of the form:<br/>
                 {
-                '1':  first value,<br/>
+                '0':  first value in list,<br/>
+                '1':  first percentile,<br/>
                 '25': 25th percentile,<br/>
                 '50': median,<br/>
                 '75': 75th percentile,<br/>
-                '99': last value in list<br/>
-                }</li>
+                '99': 99th percentile,<br/>
+                '100': last value in list<br/>
+                }<br/>
+                Includes both 0/1st, 99/100th, In case use case requires<br/>
+                first item in list or 1st pecentile in list. Et cetera</li>
         </ul>
     </ul>
 </ul>
