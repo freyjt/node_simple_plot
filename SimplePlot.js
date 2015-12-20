@@ -642,7 +642,8 @@ OneListStats.prototype.getPercentile = function( P ) {
     var returner = null;
     if(typeof(this.List) !== 'undefined') {
         function sorter(a, b) { return a - b; }
-        this.List.sort(sorter());
+        
+        this.List.sort(sorter);
 
         try {
             if(P < 1) {
@@ -664,6 +665,7 @@ OneListStats.prototype.getPercentile = function( P ) {
             k = Math.ceil(k);
             returner = this.List[k];
         }
+        console.log(k);
     } else {
         console.log("Error in OneListStats.getPercentile. List is unset.");
         returner = null;
@@ -695,7 +697,8 @@ OneListStats.prototype.getValues = function() {
 OneListStats.prototype.getSummary = function() {
     var retObj;
     if(typeof(this.List) !== 'undefined') {
-        this.List.sort();
+        function sorter(a, b) { return a-b; }
+        this.List.sort(sorter);
         retObj = {
             'first': this.List[0],
             '1':     this.getPercentile(1),
